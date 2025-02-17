@@ -1,0 +1,24 @@
+70 G0 g56 B180
+TRANS X=X_B180 Z=Z_B180 Y=Y_B180           ; B180_!!!
+REGIME(90,10,4,0.06)            ;REGIME(25,10,2,0.04)
+;****paz  h=10+0.36***L=12+0.43**** p-p D-D***
+g0 g56 x87 y-47 d1 m3
+z10 ;m8
+g1 z0 f=fus
+DEF INT DPR=12+0.43/2 
+DEF INT KP=3 zzbez=dpr+zbez*2  
+DEF INT PAZ1 
+
+FOR PAZ1 = 0 TO 3 ;—четна€переменна€ 
+G1Z=IC(-DPR/KP) F=r93*2
+g1 y-19 F=r93
+g1 x31
+g1 y-97
+g1 x25
+g1 y-105
+g0 z=ic(zzbez)
+x87 y-47
+g1 z=ic(-zzbez) f=fus/2
+ENDFOR                                                    
+g0 z50 m9
+SMENA_Z

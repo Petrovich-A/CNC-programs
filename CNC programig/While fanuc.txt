@@ -1,0 +1,18 @@
+%
+/ Tool is set at starting position.  Enter the conditional loop
+
+#100 = 1
+
+o101 while [#100 le 5] 
+
+G1 X -0.02 F10
+G54 Z -.25 F10
+G0 X0.0
+G54 Z0.0
+
+#100 = [#100 + 1]
+
+o101 endwhile
+
+M2
+%
