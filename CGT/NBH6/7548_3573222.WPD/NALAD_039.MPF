@@ -1,0 +1,84 @@
+N1 ;detal 7548-3573222 korpus mexanizma upravlen.
+N2 ;OPER 60  (2_detali_A1-A2 -- YSTANOV 2 --prilada 7273-6030)
+N3 ;STANOK nbh-6 INV.zav. A.10003135.06
+N4 ;KOPTYAEV S.G  11.03.2013        07-08.02.13
+N5 ;TC=40_MIN(NA 2_sht,(DETAL_A1(B270,B180),DETAL_A2(BB270,B0))
+N6 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,Y_B180,X_B180,Z_B180,Y_B90,X_B90,Z_B90,Y_B0,X_B0,Z_B0,Y_B270,X_B270,Z_B270,DPR,KP,TF,TS,Y_BB90,X_BB90,Z_BB90,Y_BB270,X_BB270,Z_BB270
+N7 ;DEFINE SMENA_ZYX AS G75 FP=1 Z1=0 Y1=0 X1=0 SPOS=0  
+N8 DEFINE SMENA_Z AS g0 g53 z930 d0 M9 m5 
+N9 $AC_TIMER[1]=0  ;cikl starta time/min
+N10 ;___detal_A1 _storona !!!B270_!!!!_____A1
+N11 R1=470+0.01         ;os_y palca d13
+N12 R2=-315+125-0.03     ;os_x palca d13
+N13 R3=315-170-0.02     ;os_z torec opor
+N14 ;___detal_A2 _storona !!!BB270_!!!!____A2
+N15 R10=400+0           ;os_y  palca d13
+N16 R20=530-315+0.013       ;os_x palca d13
+N17 R30=315-170-0.02       ;os_Z torec opor 
+N18 ;/////////////////////////////////////////////////////////
+N19 ;____60_operac_NA 2_sht,(DETAL_A1(B270,B180),DETAL_A2(BB270,B0))G55______
+N20 ;*G55-X-centr STOLA,Y-PLOSKOST paleti,Z-centr STOLA
+N21 $P_UIFR[2]=CTRANS(X,0,Y,0,Z,0,B,0);  G55 
+N22 ZBEZ=3
+N23 XBEZ=10
+N24 YBEZ=7 
+N25 zpripusk=0.5 
+N26 ;///////////////////////////A1\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+N27 ;______B270 __TRANS _detal_A1 _storona !!!B270_!!!!_____A1
+N28 Y_B270=r1      ;OS_Y TRANS r1=470       os_y palca d13
+N29 X_B270=r2      ;OS_X TRANS r2=-315+125=-190 ;os_x palca d13
+N30 Z_B270=r3+67.8        ;OS_Z TRANS r3=315-170+67.8=212.8
+N31 ;______B180 __TRANS _detal_A1 _storona !!!B180_!!!!_____A1
+N32 Y_B180=Y_B270+207-(72+120)  ;OS_Y TRANS Y=470+15=485  os_y ;d=40+0.39;d49+0.25
+N33 X_B180=r3+43              ;OS_X TRANS X=315-170+43=188 os_x ;d=40+0.39;d49+0.25
+N34 Z_B180=ABS(r2)+52+(96-30-15)     ;OS_Z TRANS Z=293     ;torec detali B180
+N35 ;///////////////////////////A2\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+N36 ;____BB270_____TRANS detal_A2 _storona !!!BB270_!!!!____A2
+N37 Y_BB270=r10     ;OS_Y TRANS  r10=400    os_y palca d13 
+N38 X_BB270=r20     ;OS_X TRANS  r20=530-315=215 ;os_x palca d13
+N39 Z_BB270=r30+67.8    ;OS_Z TRANS  r30=315-170+67.8=212.8
+N40 ;______B0 __TRANS _detal_A2 _storona !!!B0_!!!!________A2
+N41 Y_B0=Y_BB270-(72+120)+0      ;OS_Y TRANS Y=400-192=208  os_y ;nign torec detali
+N42 X_B0=-(r30+43+15)            ;OS_X TRANS X=-(315-170+43+15)=-203 os_x ;d=40+0.062;d49+0.068
+N43 Z_B0=ABS(r20)+138-(96-30-15) ;OS_Z TRANS Z=302     ;torec detali B0 
+N44 ;///////////////////////////////////////////////////////
+N45 SMENA_Z
+N46 G0 G55 G17 G40 G90 G94          ;G55!!!!
+N47 T6 M6
+N48 MSG("T6 SVERLO D=16/90,WORK_STEP(1)")
+N49 ;************************************************ T="30.1"
+N50 ;/////////////////////A1\\\\\\\\\\\\\\\\\\\\\\\\\
+N51 G0 g55 B270
+N52 TRANS X=X_B270 Z=Z_B270 Y=Y_B270  ;detal_A1 __ B270_!!!
+N53 g0 G55 X0 Y0 d2
+N54 M0;!!!os_palca priladi D13 na det_A1!!!
+N55 ;Z=32.2    ;z=30+67.8=100 ot torca opor prilad
+N56 M0
+N57 SMENA_Z
+N58 ;/////////////////////A2\\\\\\\\\\\\\\\\\\\\\\\\\
+N59 g0 G55 B270
+N60 TRANS X=X_BB270 Z=Z_BB270 Y=Y_BB270  ;detal_A2___ BB270_!!
+N61 G55 X0 Y0 d2
+N62 M0;!!!os_palca priladi D13 na det_A2!!!
+N63 ;Z32.2     ;z=30+67.8=100 ot torca opor prilad
+N64 M0
+N65 SMENA_Z
+N66 M0
+N67 M2
+N68 ;////////////esli po gelaete///////A2\\\\\\\\\\\\\\\\\\\\\\\\\
+N69 g0 G55 B0
+N70 TRANS X=X_B0 Z=Z_B0 Y=Y_B0     ;detal_A2____ B0
+N71 G0 G55 X0 Y50 d2  ;X0 Y0
+N72 M0  ;!!!d=40+0.062!!!
+N73 ;Z20 ;20_mm do torca detali
+N74 M0
+N75 SMENA_Z
+N76 g0 G55 B180
+N77 TRANS X=X_B180 Z=Z_B180 Y=Y_B180  ;detal_A1 __ B180_!!!
+N78 G0 G55 X0 Y0 d2  
+N79 M0;!!!d=40+0.39;d49+0.25!!!!
+N80 ;Z20 ;20_mm do torca detali
+N81 M0
+N82 SMENA_Z
+N83 M0
+N84 M2

@@ -1,0 +1,970 @@
+N1 ;detal 7556-1712212 korpus zolotnikov 
+N2 ;OPER 110 -- YSTANOV I+II=I -- B0/B180 -- prilada 7274-6381
+N3 ;STANOK nbh-6 INV_12506
+N4 ;PETROVICH A.V.12.03.14 vnedr. prilad 7274-6381 storona A1/A2
+N5 ;VASILEVSKI A.I.27.03.2014 vnedr. pril. 7274-6381 storona A3/A4
+N6 ;PETROVICH A.V. (11.08.2014) - DOBAVIL PAZI (SLYZHEBNAIA ¹127 OT 16.07.2014)
+N7 ;TC A1=9_MIN/A2=21_MIN; TC A3=9_MIN/A4=21_MIN (NA KAZHDUYU USTANOVKU,(DETAL_A1(B0),DETAL_A2(BB0),DETAL_A3(B180),DETAL_A4(BB180))
+N8 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,X_B0,Y_B0,Z_B0,X_BB0,Y_BB0,Z_BB0,X_B180,Y_B180,Z_B180,X_BB180,Y_BB180,Z_BB180,dpr,kp,zzbez;
+N9 DEFINE SMENA_Z AS g0 g53 z930 d0 M9 m5 
+N10 $AC_TIMER[1]=0  ;cikl starta time/min
+N11 ;***************************************************
+N12 ;___detal_A1 _storona B0_____KRYGLIJ PALEC
+N13 R11=385-630/2+0  ;os_x palca 
+N14 R21=500.690          ;os_y palca 
+N15 R31=480-630/2-0.027  ;os_z torec placika
+N16 ;___detal_A2 _storona BB0_____KRYGLIJ PALEC
+N17 R12=245-630/2+0  ;os_x palca 
+N18 R22=500.690      ;os_y palca 
+N19 R32=480-630/2        ;os_Z torec placika 
+N20 ;___detal_A3 _storona B180_____KRYGLIJ PALEC
+N21 R13=-245+630/2+0.14  ;os_x palca -0.18
+N22 R23=500.670          ;os_y palca 
+N23 R33=630/2-150.013    ;os_z torec placika
+N24 ;___detal_A4 _storona BB180_____KRYGLIJ PALEC
+N25 R14=-385+630/2+0.1 ;os_x palca -0.22
+N26 R24=500.760          ;os_y palca 
+N27 R34=630/2-150.079    ;os_Z torec placika
+N28 ;***************************************************
+N29 GOTOF _proverka
+N30 START_1:
+N31 MSG("ZAGRUGENI LI DETALI A1/A3????")
+N32 M0
+N33 ; ********rabota*********G54  
+N34 ;___detal_A1 _storona B0
+N35 ST1: WORK_STEP(1)
+N36 G0 G54 G17 G40 G90 G94
+N37 T="27.2" M6
+N38 MSG("T=27.2(2/27) FREZA D=20,WORK_STEP(1) ")
+N39 R1=20/2  ;rad.frezi
+N40 ;************************************************
+N41 G0 G54 B0
+N42 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N43 REGIME(150,20,2,0.09)
+N44 G54 X0 Y0 d1 m3
+N45 Z10 m8
+N46 POCKET2(7,0,5,,3.4,13.13,0,0,r93*0.5,r93,,2,,2)
+N47 POCKET2(7,0,5,,6.7,13.13,0,0,r93*0.5,r93,,2,,2)
+N48 POCKET2(7,0,5,,10.23,13.13,0,0,r93*0.5,r93,,2,,2)
+N49 POCKET2(7,0,5,,3.4,14.13,-87,0,r93*0.5,r93,,2,,2)
+N50 POCKET2(7,0,5,,6.7,14.13,-87,0,r93*0.5,r93,,2,,2)
+N51 POCKET2(7,0,5,,10.23,14.13,-87,0,r93*0.5,r93,,2,,2)
+N52 SMENA_Z
+N53 MSG("MERITI D=26+0.52_L=...")
+N54 M0;*********MERITI D=26+0.52_L=...****
+N55 ST2: WORK_STEP(2)
+N56 T="2.1" M6
+N57 MSG("T=2.1(1/2)SVERLO CENTR d=16/90 ,WORK_STEP(2) ")
+N58 ;***************************************************
+N59 G0 G54 B0
+N60 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N61 REGIME(19,16,2,0.1)
+N62 G0 G54 X-87 Y232 D1 M3 M8
+N63 MCALL CYCLE82(30,0,ZBEZ,,6.6,1)
+N64 X-87 Y232
+N65 X13 Y58
+N66 MCALL
+N67 X-17 Y163      ;BILO X-16
+N68 MCALL CYCLE82(5,0,zbez,,3.1,2)    ; mcall
+N69 X-17 Y163      ;BILO X-16
+N70 X-49 Y174
+N71 MCALL
+N72 X-22 Y192
+N73 CYCLE82(5,0,zbez,,4.2,1)
+N74 x-16 y29
+N75 CYCLE82(5,0,ZBEZ,,7,1)
+N76 SMENA_Z
+N77 ST3: WORK_STEP(3)
+N78 T="6.2" M6
+N79 MSG("T=6.2(2/6)FREZA d=10 ,WORK_STEP(3) ")
+N80 ;***************************************************
+N81 G0 G54 B0
+N82 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N83 REGIME(90,10,4,0.06)
+N84 G0 G54 X-47 Y232  D1 M3
+N85 POCKET2(25,-(18+2),zbez*3,,3,7,-47,232,R93,R93,3,2,0,2)
+N86 SMENA_Z
+N87 ST4: WORK_STEP(4)
+N88 T="3.1" M6
+N89 MSG("T3.1(1/3) SVERLO D=13+0.27 ,WORK_STEP(4) ")
+N90 ;*************************************************** 
+N91 G0 G54 B0
+N92 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N93 REGIME(21,13,2,0.075)
+N94 WAIT_TO_CHECK 
+N95 G0 G54 X-47 Y232 D1 M3 M8
+N96 CYCLE83(25,-18,9,,50-21.7,,15,10,0,0,1,1) 
+N97 REGIME(18,13,2,0.08) 
+N98 WAIT_TO_CHECK 
+N99 G0 G54 X-87 Y232 D1 M3 ; PALCI STARIE
+N100 MCALL CYCLE83(30,0,ZBEZ,,42,,10,7,,,1,1,3,,,,)
+N101 X-87 Y232 M8
+N102 X13 Y58
+N103 MCALL
+N104 G0 Z30 M9
+N105 SMENA_Z
+N106 ST5: WORK_STEP(5)
+N107 T="4.1" M6
+N108 MSG("T4.1(1/4) SVERLO D=6**NA,L=8+1.WORK_STEP(5)")
+N109 ;***************************************************
+N110 G0 G54 B0
+N111 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N112 REGIME(16,6,2,0.073)
+N113 G0 G54 X-17 Y163 m8 D1 M3    ;X-16
+N114 CYCLE82(5,0,5,,8,1)
+N115 X-49 Y174
+N116 CYCLE83(5,0,5,,50.5,,15,10,0,0,1,1,3,,,,)
+N117 SMENA_Z
+N118 ST6: WORK_STEP(6)
+N119 T="13.2" M6
+N120 MSG("T13.2(2/13)SVERLO D=10.8* L=17 D=10.7+0.2.WORK_STEP(6)")
+N121 ;***************************************************
+N122 G0 G54 B0
+N123 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N124 REGIME(21,10.8,2,0.073)
+N125 G0 G54 X-16 Y29 D1 M3
+N126 Z8 M8
+N127 G1 Z-17 F=r93
+N128 G0 Z30 M9
+N129 SMENA_Z
+N130 ST7: WORK_STEP(7)
+N131 T="1.2" M6
+N132 MSG("T1.2 ANAJ KOMBIN. D1=SV=8.5_L=28/D2=CEKOVKA_D=28*WORK_STEP(7)")
+N133 ;*************************************************** T8.1
+N134 G0 g54 B0
+N135 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N136 REGIME(130,28,2,0.07)    ;D2=CEKOVKA_D=28
+N137 G0 G55 X-29 Y261 D2 M3    ;D2  
+N138 M7
+N139 CYCLE82(70,-6.5,13+28,,0.5,1)
+N140 REGIME(80,8.5,2,0.11)   ;D1=SV=8.5_L=28
+N141 G0 G55 X-49 Y174 m7 D1 M3  
+N142 CYCLE82(25,0,12,,16.5,0)
+N143 SMENA_Z
+N144 ST8: WORK_STEP(8)
+N145 T="5.1" M6
+N146 MSG("T=5.1(1/5)SVERLO D=8****NA L=26 .WORK_STEP(8) ")
+N147 ;***************************************************
+N148 G0 G54 B0
+N149 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N150 REGIME(18,8,2,0.073)
+N151 G0 G54 X-22 Y192 D1 M3 M8
+N152 CYCLE82(5,0,5,,26,1)
+N153 SMENA_Z
+N154 ST9: WORK_STEP(9)
+N155 T="7.1" M6
+N156 MSG("T=7.1(1/7) FREZA D=8(4_zub)L=10.5+/-0.215,WORK_STEP(9)")
+N157 R1=8/2  ;rad.frezi
+N158 ;************************************************
+N159 G0 G54 B0
+N160 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N161 REGIME(70,8,4,0.05)
+N162 X-22 Y192 D1 M3
+N163 Z5
+N164 g1 z0 f=fus
+N165 DPR=10.5 KP=3 zzbez=dpr+zbez*2
+N166 fr_8:G1Z=IC(-DPR/KP) F=r93*2
+N167 X6 F=r93   ;Bilo x26
+N168 g0 z=ic(zzbez)
+N169 X-22
+N170 g1 z=ic(-zzbez) f=fus/2
+N171 REPEAT fr_8 P=KP-1
+N172 g0 z50 m9
+N173 SMENA_Z
+N174 MSG("PROVER GODNOST DETALI A1!!!!")
+N175 M0
+N176 ;************************************************
+N177 M192
+N178 MSG("PEREUSTONOVIT DETAL A1  NA __A2!!!!")
+N179 M0
+N180 M193
+N181 ;___detal_A2 _storona B0
+N182 ;************************************************
+N183 ST10: WORK_STEP(10)
+N184 T="2.1" M6
+N185 MSG("T=2.1(1/2) SVERLO CENTR.  D=16<90,WORK_STEP(10) ")
+N186 ;************************************************
+N187 G0 G54 B0
+N188 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N189 REGIME(25,16,2,0.076)        ; S500 F75 
+N190 G0 G54 X-13 Y58 D1 M3
+N191 m8
+N192 MCALL CYCLE82(35,0,zbez,,6.9,1)
+N193 X-13 Y58   ;1 d=13+0.035
+N194 X87 Y232  ;2 d=13+0.035
+N195 MCALL
+N196 SMENA_Z
+N197 ;******************************* p-p E-E OTV. D=14+0.043***
+N198 ST11: WORK_STEP(11)
+N199 T="3.1" M6
+N200 MSG("T3.1(1/3) SVERLO D=13****NA L=15*,WORK_STEP(11) ")
+N201 ;***************************************************
+N202 G0 G54 B0
+N203 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N204 REGIME(21,13,2,0.073)
+N205 WAIT_TO_CHECK 
+N206 G0 G54 X-13 Y-14 D1 M3
+N207 Z8 M8
+N208 G1 Z-15 F=r93
+N209 G0 Z35
+N210 REGIME(18,13,2,0.075)
+N211 WAIT_TO_CHECK 
+N212 G0 G54 X-13 Y58 D1 M3
+N213 MCALL CYCLE83(30,0,ZBEZ,,35,,10,7,,,1,1,3,,,,)
+N214 X-13 Y58 M8
+N215 X87 Y232
+N216 MCALL
+N217 SMENA_Z
+N218 ST12: WORK_STEP(12)
+N219 T="18.1" M6
+N220 MSG("T=18.1(1/18)SVERLO D=13.8<180*L=20+0.21***,WORK_STEP(12) ")
+N221 ;***************************************************
+N222 G0 G54 B0
+N223 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N224 REGIME(14,13.8,2,0.05)
+N225 G0 G54 X-13 Y-14 D1 M3
+N226 M8
+N227 CYCLE82(3,0,3,,20.1,1)
+N228 SMENA_Z
+N229 ST13: WORK_STEP(13)
+N230 T="18.2" M6
+N231 MSG("T=18.2(2/18)RAZVERTKA D=14+0.045,WORK_STEP(13) ")
+N232 ;***************************************************
+N233 G0 G54 B0
+N234 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N235 REGIME(10,14,5,0.036)
+N236 G0 G54 X-13 Y-14 D1 M3
+N237 Z6 M8
+N238 G1 Z-18.5 F=r93
+N239 Z6 F=r93*5
+N240 G0 Z30 M9
+N241 SMENA_Z
+N242 ST14: WORK_STEP(14)
+N243 T="19.1" M6
+N244 MSG("T=19.1(1/19)FREZA D=13** L=1+0.1,WORK_STEP(14)");  BILO L=1.35+0.1
+N245 ;***************************************************
+N246 G0 G54 B0
+N247 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N248 REGIME(19,13,2,0.03)
+N249 G0 G54 X-13 Y-31 D1 M3
+N250 ATRANS X-13 Y-31
+N251 X0 Y0
+N252 Z=zbez M8
+N253 G1 Z-1 F=r93;           BILO Z-1.35
+N254 G1 G42 X6.55 Y0
+N255 G2 X6.55 Y0 I=AC(0) J=AC(0) F=r93*4
+N256 G1 G40 X0 Y0
+N257 SMENA_Z
+N258 ST15: WORK_STEP(15)
+N259 T="19.2" M6
+N260 MSG("T=19.2(2/19) FREZA D=14(2_zub),WORK_STEP(15)")
+N261 R1=14/2  ;rad.frezi
+N262 ;************************************************
+N263 G0 G54 B0
+N264 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N265 REGIME(20,14,4,0.05)
+N266 ;******************************* p-p B-B***
+N267 g0 G54 x-20 y212 d1 m3
+N268 z10 m8
+N269 g1 z0 f=fus
+N270 DPR=11+0.43/2 KP=2 zzbez=dpr+zbez*2
+N271 fr_14:G1Z=IC(-DPR/KP) F=r93*2
+N272 g1 x-8.5 y226 F=r93
+N273 y250
+N274 x-35 y270
+N275 g0 z=ic(zzbez)
+N276 x-20 y212
+N277 g1 z=ic(-zzbez) f=fus/2
+N278 REPEAT fr_14 P=KP-1
+N279 g0 z50 m9
+N280 SMENA_Z
+N281 ST16: WORK_STEP(16)
+N282 T="11.2" M6
+N283 MSG("T=11.2(2/11) FREZA D=6(3_zub),WORK_STEP(16)")
+N284 R1=6/2  ;rad.frezi
+N285 ;************************************************
+N286 G0 G54 B0
+N287 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N288 REGIME(70,6,3,0.045)
+N289 ;******************************* p-p C-C VERHNII***
+N290 g0 G54 x63 y271 d1 m3
+N291 z10 ;m8
+N292 g1 z0 f=fus
+N293 DPR=5 KP=2 zzbez=dpr+zbez*2
+N294 fr_6:G1Z=IC(-DPR/KP) F=r93*2
+N295 g1 y287 F=r93
+N296 x85
+N297 g0 z=ic(zzbez)
+N298 x63 y271
+N299 g1 z=ic(-zzbez) f=fus/2
+N300 REPEAT fr_6 P=KP-1
+N301 ;******************************* p-p C-C NIZHNII***
+N302 g0 z10 
+N303 x61 y128
+N304 g1 z0 f=fus
+N305 DPR=5 KP=2 zzbez=dpr+zbez*2
+N306 ffr_6:G1Z=IC(-DPR/KP) F=r93*2
+N307 g1 x18 y-14 F=r93
+N308 g0 z=ic(zzbez)
+N309 x61 y128
+N310 g1 z=ic(-zzbez) f=fus/2
+N311 REPEAT ffr_6 P=KP-1
+N312 g0 z50 m9
+N313 SMENA_Z
+N314 ST17: WORK_STEP(17)
+N315 T="7.1" M6
+N316 MSG("T=7.1(1/7) FREZA D=8(4_zub),WORK_STEP(17)")
+N317 R1=8/2  ;rad.frezi
+N318 ;************************************************
+N319 G0 G54 B0
+N320 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N321 REGIME(70,8,4,0.05)
+N322 WAIT_TO_CHECK 
+N323 ;******************************* p-p g-g VERH LEV***
+N324 g0 G54 x-1 y273 d1 m3
+N325 z10 ;m8
+N326 g1 z0 f=fus
+N327 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N328 fr_8:G1Z=IC(-DPR/KP) F=r93*2
+N329 g1 y287 F=r93
+N330 g0 z=ic(zzbez)
+N331 x-1 y273
+N332 g1 z=ic(-zzbez) f=fus/2
+N333 REPEAT fr_8 P=KP-1
+N334 ;*******************************p-p M-M***
+N335 g0 z=zbez*2
+N336 x97 y197
+N337 g1 z0 f=fus
+N338 DPR=10+0.36/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N339 fffr_8:G1Z=IC(-DPR/KP) F=r93*2
+N340 g1 x49 y177 F=r93
+N341 g0 z=ic(zzbez)
+N342 x97 y197
+N343 g1 z=ic(-zzbez) f=fus/2
+N344 REPEAT fffr_8 P=KP-1
+N345 ;****************************p-p SH-SH* L=3+/-0.3**
+N346 g0 z=zbez*2
+N347 x6 y214
+N348 g1 z0 f=fus
+N349 DPR=3  zzbez=dpr+zbez*2
+N350 G1 Z=IC(-DPR) F=r93*2
+N351 g1 y199 F=r93
+N352 g0 z=ic(zzbez)
+N353 ;****************************p-p SH-SH* L=12+0.43**
+N354 x-37.5 y208
+N355 g1 z0 f=fus
+N356 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N357 fffrr_8:G1Z=IC(-DPR/KP) F=r93*2
+N358 g1 y192 F=r93
+N359 x-18
+N360 x4 y199
+N361 x27
+N362 y251
+N363 x15
+N364 g0 z=ic(zzbez)
+N365 x-37.5 y208
+N366 g1 z=ic(-zzbez) f=fus/2
+N367 REPEAT fffrr_8 P=KP-1
+N368 g0 z50 m9
+N369 SMENA_Z
+N370 ST18: WORK_STEP(18)
+N371 T="6.2" M6
+N372 MSG("T=6.2(2/6) FREZA D=10(4_zub),WORK_STEP(18)")
+N373 R1=10/2  ;rad.frezi
+N374 ;************************************************
+N375 G0 G54 B0
+N376 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N377 REGIME(90,10,3,0.06) ;SMOTRI KOL-VO ZYB'EV 
+N378 WAIT_TO_CHECK 
+N379 ;****paz  h=10+0.36***L=12+0.43**** p-p D-D***
+N380 g0 G54 x79 y87 d1 m3
+N381 z10 ;m8
+N382 g1 z0 f=fus
+N383 DPR=12+0.43/2 KP=3 zzbez=dpr+zbez*2          ;KP=3 
+N384 fr_10:G1Z=IC(-DPR/KP) F=r93*2
+N385 g1 x107 F=r93
+N386 y143
+N387 x29
+N388 y149
+N389 x21
+N390 g0 z=ic(zzbez)
+N391 x79 y87
+N392 g1 z=ic(-zzbez) f=fus/2
+N393 REPEAT fr_10 P=KP-1
+N394 g0 z=zbez*2
+N395 ;******************************* p-p g-g VERH PRAVO - IZMEN. PO SLUZHEBN.***
+N396 x46.5 y251
+N397 g1 z0 f=fus
+N398 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N399 ffr_10:G1Z=IC(-DPR/KP) F=r93*2
+N400 g1 x85 F=r93
+N401 x107 y273
+N402 g0 z=ic(zzbez)
+N403 x46.5 y251
+N404 g1 z=ic(-zzbez) f=fus/2
+N405 REPEAT ffr_10 P=KP-1
+N406 SMENA_Z
+N407 ST19: WORK_STEP(19)
+N408 T="11.1" M6
+N409 MSG("T=11.1(1/11) FREZA D=20(2_zub),WORK_STEP(19)")
+N410 R1=20/2  ;rad.frezi
+N411 ;************************************************
+N412 G0 G54 B0
+N413 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N414 REGIME(20,20,2,0.05)
+N415 WAIT_TO_CHECK 
+N416 ;********paz h=20+0.52**L=18+1.1***** p-p D-D***
+N417 g0 G54 x15 y174 d1 m3
+N418 z10 m8
+N419 g1 z0 f=fus
+N420 DPR=18+1.1/2 KP=3 zzbez=dpr+zbez*2
+N421 fr_20:G1Z=IC(-DPR/KP) F=r93*2
+N422 g1 y177 F=r93
+N423 x47
+N424 g0 z=ic(zzbez)
+N425 x15 y174
+N426 g1 z=ic(-zzbez) f=fus/2
+N427 REPEAT fr_20 P=KP-1
+N428 G0 Z=ZBEZ*2
+N429 X15 Y96;  edet na nizhnii paz
+N430 G1 Z-25 F=FUS/2
+N431 Z-35 F=R93
+N432 g0 z50 m9
+N433 SMENA_Z
+N434 ST20: WORK_STEP(20)
+N435 T="6.1" M6
+N436 MSG("T=6.1(1/6) FREZA D=28(2_zub),WORK_STEP(20)")
+N437 R1=28/2  ;rad.frezi
+N438 ;************************************************
+N439 G0 G54 B0
+N440 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N441 REGIME(25,28,6,0.05)
+N442 ;********paz h=28+/-0.42**L=35+/-0.5***** p-p D-D***
+N443 g0 G54 x15 y96 d1 m3
+N444 z10 m8
+N445 g1 z0 f=fus
+N446 DPR=35 KP=5 zzbez=dpr+zbez*2
+N447 fr_28:G1Z=IC(-DPR/KP) F=r93*2
+N448 g1 y123 F=r93
+N449 G4 F2
+N450 g0 z=ic(zzbez)
+N451 x15 y96
+N452 g1 z=ic(-zzbez) f=fus/2
+N453 REPEAT fr_28 P=KP-1
+N454 g0 z50 m9
+N455 SMENA_Z
+N456 MSG("PROVER GODNOST DETALI A2!!!!")
+N457 M0
+N458 MSG("ZAGRUGENA DETAL A3????")
+N459 M0
+N460 ; ********rabota*********G54  
+N461 ;___detal_A3 _storona B180
+N462 ST21: WORK_STEP(21)
+N463 G0 G54 G17 G40 G90 G94
+N464 T="27.2" M6
+N465 MSG("T=27.2(2/27) FREZA D=20,WORK_STEP(21) ")
+N466 R1=20/2  ;rad.frezi
+N467 ;************************************************
+N468 G0 G54 B180
+N469 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N470 REGIME(150,20,2,0.09)
+N471 G54 X0 Y0 d1 m3
+N472 Z10 m8
+N473 POCKET2(7,0,5,,3.4,13.13,0,0,r93*0.5,r93,,2,,2)
+N474 POCKET2(7,0,5,,6.7,13.13,0,0,r93*0.5,r93,,2,,2)
+N475 POCKET2(7,0,5,,10.23,13.13,0,0,r93*0.5,r93,,2,,2)
+N476 POCKET2(7,0,5,,3.4,13.13,-87,0,r93*0.5,r93,,2,,2)
+N477 POCKET2(7,0,5,,6.7,13.13,-87,0,r93*0.5,r93,,2,,2)
+N478 POCKET2(7,0,5,,10.23,13.13,-87,0,r93*0.5,r93,,2,,2)
+N479 SMENA_Z
+N480 MSG("MERITI D=26+0.52_L=...")
+N481 M0;*********MERITI D=26+0.52_L=...****
+N482 ST22: WORK_STEP(22)
+N483 T="2.1" M6
+N484 MSG("T=2.1(1/2)SVERLO CENTR d=16/90 ,WORK_STEP(22) ")
+N485 ;***************************************************
+N486 G0 G54 B180
+N487 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N488 REGIME(19,16,2,0.1)
+N489 G0 G54 X-87 Y232 D1 M3 M8
+N490 MCALL CYCLE82(30,0,ZBEZ,,6.6,1)
+N491 X-87 Y232
+N492 X13 Y58
+N493 MCALL
+N494 X-17 Y163      ;BILO X-16
+N495 MCALL CYCLE82(5,0,zbez,,3.1,2)    ; mcall
+N496 X-17 Y163      ;BILO X-16
+N497 X-49 Y174
+N498 MCALL
+N499 X-22 Y192
+N500 CYCLE82(5,0,zbez,,4.2,1)
+N501 x-16 y29
+N502 CYCLE82(5,0,ZBEZ,,7,1)
+N503 SMENA_Z
+N504 ST23: WORK_STEP(23)
+N505 T="6.2" M6
+N506 MSG("T=6.2(2/6)FREZA d=10 ,WORK_STEP(23) ")
+N507 ;***************************************************
+N508 G0 G54 B180
+N509 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N510 REGIME(90,10,4,0.06)
+N511 G0 G54 X-47 Y232  D1 M3
+N512 POCKET2(25,-(18+2),zbez*3,,3,7,-47,232,R93,R93,3,2,0,2)
+N513 SMENA_Z
+N514 ST24: WORK_STEP(24)
+N515 T="3.1" M6
+N516 MSG("T3.1(1/3) SVERLO D=13+0.27 ,WORK_STEP(24) ")
+N517 ;*************************************************** 
+N518 G0 G54 B180
+N519 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N520 REGIME(21,13,2,0.075)
+N521 WAIT_TO_CHECK 
+N522 G0 G54 X-47 Y232 D1 M3 M8
+N523 CYCLE83(25,-18,9,,50-21.7,,15,10,0,0,1,1) 
+N524 REGIME(18,13,2,0.08) 
+N525 WAIT_TO_CHECK 
+N526 G0 G54 X-87 Y232 D1 M3    ; PALCI STARIE
+N527 MCALL CYCLE83(30,0,ZBEZ,,42,,10,7,,,1,1,3,,,,)
+N528 X-87 Y232 M8
+N529 X13 Y58
+N530 MCALL
+N531 G0 Z30 M9
+N532 SMENA_Z
+N533 ST25: WORK_STEP(25)
+N534 T="4.1" M6
+N535 MSG("T4.1(1/4) SVERLO D=6**NA,L=8+1.WORK_STEP(25)")
+N536 ;***************************************************
+N537 G0 G54 B180
+N538 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N539 REGIME(16,6,2,0.073)
+N540 G0 G54 X-17 Y163 m8 D1 M3    ;X-16
+N541 CYCLE82(5,0,5,,8,1)
+N542 X-49 Y174
+N543 CYCLE83(5,0,5,,50.5,,15,10,0,0,1,1,3,,,,)
+N544 SMENA_Z
+N545 ST26: WORK_STEP(26)
+N546 T="13.2" M6
+N547 MSG("T13.2(2/13)SVERLO D=10.8* L=17 D=10.7+0.2.WORK_STEP(26)")
+N548 ;***************************************************
+N549 G0 G54 B180
+N550 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N551 REGIME(21,10.8,2,0.073)
+N552 G0 G54 X-16 Y29 D1 M3
+N553 Z8 M8
+N554 G1 Z-17 F=r93
+N555 G0 Z30 M9
+N556 SMENA_Z
+N557 ST27: WORK_STEP(27)
+N558 T="1.2" M6
+N559 MSG("T1.2 ANAJ KOMBIN. D1=SV=8.5_L=28/D2=CEKOVKA_D=28*WORK_STEP(27)")
+N560 ;*************************************************** T8.1
+N561 G0 g54 B180
+N562 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N563 REGIME(130,28,2,0.07)    ;D2=CEKOVKA_D=28
+N564 G0 G55 X-29 Y261 D2 M3    ;D2  
+N565 M7
+N566 CYCLE82(70,-6.5,13+28,,0.5,1)
+N567 REGIME(80,8.5,2,0.11)   ;D1=SV=8.5_L=28
+N568 G0 G55 X-49 Y174 m7 D1 M3  
+N569 CYCLE82(25,0,12,,16.5,0)
+N570 SMENA_Z
+N571 ST28: WORK_STEP(28)
+N572 T="5.1" M6
+N573 MSG("T=5.1(1/5)SVERLO D=8****NA L=26 .WORK_STEP(28) ")
+N574 ;***************************************************
+N575 G0 G54 B180
+N576 TRANS X=X_B180 Z=Z_B0 Y=Y_B180
+N577 REGIME(18,8,2,0.073)
+N578 G0 G54 X-22 Y192 D1 M3 M8
+N579 CYCLE82(5,0,5,,26,1)
+N580 SMENA_Z
+N581 ST29: WORK_STEP(29)
+N582 T="7.1" M6
+N583 MSG("T=7.1(1/7) FREZA D=8(4_zub)L=10.5+/-0.215,WORK_STEP(29)")
+N584 R1=8/2  ;rad.frezi
+N585 ;************************************************
+N586 G0 G54 B180
+N587 TRANS X=X_B180 Z=Z_B0 Y=Y_B180
+N588 REGIME(70,8,4,0.05)
+N589 X-22 Y192 D1 M3
+N590 Z5
+N591 g1 z0 f=fus
+N592 DPR=10.5 KP=3 zzbez=dpr+zbez*2
+N593 fr_8:G1Z=IC(-DPR/KP) F=r93*2
+N594 X6 F=r93
+N595 g0 z=ic(zzbez)
+N596 X-22
+N597 g1 z=ic(-zzbez) f=fus/2
+N598 REPEAT fr_8 P=KP-1
+N599 g0 z50 m9
+N600 SMENA_Z
+N601 MSG("PROVER GODNOST DETALI A3!!!!")
+N602 M0
+N603 ;************************************************
+N604 M192
+N605 MSG("PEREUSTONOVIT DETAL A3  NA __A4!!!!")
+N606 M0
+N607 M193
+N608 ;___detal_A4 _storona B180
+N609 ;************************************************
+N610 ST30: WORK_STEP(30)
+N611 T="2.1" M6
+N612 MSG("T=2.1(1/2) SVERLO CENTR.  D=16<90,WORK_STEP(30) ")
+N613 ;************************************************
+N614 G0 G54 B180
+N615 TRANS X=X_BB180 Z=Z_BB0 Y=Y_BB180
+N616 REGIME(25,16,2,0.076)        ; S500 F75 
+N617 G0 G54 X-13 Y58 D1 M3
+N618 m8
+N619 MCALL CYCLE82(35,0,zbez,,6.9,1)
+N620 X-13 Y58   ;1 d=13+0.035
+N621 X87 Y232  ;2 d=13+0.035
+N622 MCALL
+N623 SMENA_Z
+N624 ;******************************* p-p E-E OTV. D=14+0.043***
+N625 ST31: WORK_STEP(31)
+N626 T="3.1" M6
+N627 MSG("T3.1(1/3) SVERLO D=13****NA L=15*,WORK_STEP(31) ")
+N628 ;***************************************************
+N629 G0 G54 B180
+N630 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N631 REGIME(21,13,2,0.073)
+N632 WAIT_TO_CHECK 
+N633 G0 G54 X-13 Y-14 D1 M3
+N634 Z8 M8
+N635 G1 Z-15 F=r93
+N636 G0 Z35
+N637 REGIME(18,13,2,0.075)
+N638 WAIT_TO_CHECK 
+N639 G0 G54 X-13 Y58 D1 M3
+N640 MCALL CYCLE83(30,0,ZBEZ,,35,,10,7,,,1,1,3,,,,)
+N641 X-13 Y58 M8
+N642 X87 Y232
+N643 MCALL
+N644 SMENA_Z
+N645 ST32: WORK_STEP(32)
+N646 T="18.1" M6
+N647 MSG("T=18.1(1/18)SVERLO D=13.8<180*L=20+0.21***,WORK_STEP(32) ")
+N648 ;***************************************************
+N649 G0 G54 B180
+N650 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N651 REGIME(14,13.8,2,0.05)
+N652 G0 G54 X-13 Y-14 D1 M3
+N653 M8
+N654 CYCLE82(3,0,3,,20.1,1)
+N655 SMENA_Z
+N656 ST33: WORK_STEP(33)
+N657 T="18.2" M6
+N658 MSG("T=18.2(2/18)RAZVERTKA D=14+0.045 ,WORK_STEP(33) ")
+N659 ;***************************************************
+N660 G0 G54 B180
+N661 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N662 REGIME(10,14,5,0.036)
+N663 G0 G54 X-13 Y-14 D1 M3
+N664 Z6 M8
+N665 G1 Z-18.5 F=r93
+N666 Z6 F=r93*5
+N667 G0 Z30 M9
+N668 SMENA_Z
+N669 ST33: WORK_STEP(33)
+N670 T="19.1" M6
+N671 MSG("T=19.1(1/19)FREZA D=13** L=1+0.1,WORK_STEP(33)");  BILO L=1.35+0.1
+N672 ;***************************************************
+N673 G0 G54 B180
+N674 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N675 REGIME(19,13,2,0.03)
+N676 G0 G54 X-13 Y-31 D1 M3
+N677 ATRANS X-13 Y-31
+N678 X0 Y0
+N679 Z=zbez M8
+N680 G1 Z-1 F=r93;           BILO Z-1.35
+N681 G1 G42 X6.55 Y0
+N682 G2 X6.55 Y0 I=AC(0) J=AC(0) F=r93*4
+N683 G1 G40 X0 Y0
+N684 SMENA_Z
+N685 ST34: WORK_STEP(34)
+N686 T="19.2" M6
+N687 MSG("T=19.2(2/19) FREZA D=14(2_zub),WORK_STEP(34)")
+N688 R1=14/2  ;rad.frezi
+N689 ;************************************************
+N690 G0 G54 B180
+N691 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N692 REGIME(20,14,4,0.05)
+N693 ;******************************* p-p B-B***
+N694 g0 G54 x-20 y212 d1 m3
+N695 z10 m8
+N696 g1 z0 f=fus
+N697 DPR=11+0.43/2 KP=2 zzbez=dpr+zbez*2
+N698 fr_14:G1Z=IC(-DPR/KP) F=r93*2
+N699 g1 x-8.5 y226 F=r93
+N700 y250
+N701 x-35 y270
+N702 g0 z=ic(zzbez)
+N703 x-20 y212
+N704 g1 z=ic(-zzbez) f=fus/2
+N705 REPEAT fr_14 P=KP-1
+N706 g0 z50 m9
+N707 SMENA_Z
+N708 ST35: WORK_STEP(35)
+N709 T="11.2" M6
+N710 MSG("T=11.2(2/11) FREZA D=6(3_zub),WORK_STEP(35)")
+N711 R1=6/2  ;rad.frezi
+N712 ;************************************************
+N713 G0 G54 B180
+N714 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N715 REGIME(70,6,3,0.045)
+N716 ;******************************* p-p C-C VERHNII***
+N717 g0 G54 x63 y271 d1 m3
+N718 z10 ;m8
+N719 g1 z0 f=fus
+N720 DPR=5 KP=2 zzbez=dpr+zbez*2
+N721 fr_6:G1Z=IC(-DPR/KP) F=r93*2
+N722 g1 y287 F=r93
+N723 x85
+N724 g0 z=ic(zzbez)
+N725 x63 y271
+N726 g1 z=ic(-zzbez) f=fus/2
+N727 REPEAT fr_6 P=KP-1
+N728 ;******************************* p-p C-C NIZHNII***
+N729 g0 z10 
+N730 x61 y128
+N731 g1 z0 f=fus
+N732 DPR=5 KP=2 zzbez=dpr+zbez*2
+N733 ffr_6:G1Z=IC(-DPR/KP) F=r93*2
+N734 g1 x18 y-14 F=r93
+N735 g0 z=ic(zzbez)
+N736 x61 y128
+N737 g1 z=ic(-zzbez) f=fus/2
+N738 REPEAT ffr_6 P=KP-1
+N739 g0 z50 m9
+N740 SMENA_Z
+N741 ST36: WORK_STEP(36)
+N742 T="7.1" M6
+N743 MSG("T=7.1(1/7) FREZA D=8(4_zub),WORK_STEP(36)")
+N744 R1=8/2  ;rad.frezi
+N745 ;************************************************
+N746 G0 G54 B180
+N747 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N748 REGIME(70,8,4,0.05)
+N749 WAIT_TO_CHECK 
+N750 ;******************************* p-p g-g VERH LEV***
+N751 g0 G54 x-1 y273 d1 m3
+N752 z10 ;m8
+N753 g1 z0 f=fus
+N754 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N755 fr_8:G1Z=IC(-DPR/KP) F=r93*2
+N756 g1 y287 F=r93
+N757 g0 z=ic(zzbez)
+N758 x-1 y273
+N759 g1 z=ic(-zzbez) f=fus/2
+N760 REPEAT fr_8 P=KP-1
+N761 ;******************************* p-p M-M***
+N762 g0 z=zbez*2
+N763 x97 y197
+N764 g1 z0 f=fus
+N765 DPR=10+0.36/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N766 fffr_8:G1Z=IC(-DPR/KP) F=r93*2
+N767 g1 x49 y177 F=r93
+N768 g0 z=ic(zzbez)
+N769 x97 y197
+N770 g1 z=ic(-zzbez) f=fus/2
+N771 REPEAT fffr_8 P=KP-1
+N772 ;****************************p-p SH-SH* L=3+/-0.3**
+N773 g0 z=zbez*2
+N774 x6 y214
+N775 g1 z0 f=fus
+N776 DPR=3  zzbez=dpr+zbez*2
+N777 G1 Z=IC(-DPR) F=r93*2
+N778 g1 y199 F=r93
+N779 g0 z=ic(zzbez)
+N780 ;****************************p-p SH-SH* L=12+0.43**
+N781 x-37.5 y208
+N782 g1 z0 f=fus
+N783 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N784 fffrr_8:G1Z=IC(-DPR/KP) F=r93*2
+N785 g1 y192 F=r93
+N786 x-18
+N787 x4 y199
+N788 x27
+N789 y251
+N790 x15
+N791 g0 z=ic(zzbez)
+N792 x-37.5 y208
+N793 g1 z=ic(-zzbez) f=fus/2
+N794 REPEAT fffrr_8 P=KP-1
+N795 g0 z50 m9
+N796 SMENA_Z
+N797 ST37: WORK_STEP(37)
+N798 T="6.2" M6
+N799 MSG("T=6.2(2/6) FREZA D=10(4_zub),WORK_STEP(37)")
+N800 R1=10/2  ;rad.frezi
+N801 ;************************************************
+N802 G0 G54 B180
+N803 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N804 REGIME(90,10,3,0.06) ;SMOTRI KOL-VO ZYB'EV 
+N805 WAIT_TO_CHECK 
+N806 ;****paz  h=10+0.36***L=12+0.43**** p-p D-D***
+N807 g0 G54 x79 y87 d1 m3
+N808 z10 ;m8
+N809 g1 z0 f=fus
+N810 DPR=12+0.43/2 KP=3 zzbez=dpr+zbez*2          ;KP=3 
+N811 fr_10:G1Z=IC(-DPR/KP) F=r93*2
+N812 g1 x107 F=r93
+N813 y143
+N814 x29
+N815 y149
+N816 x21
+N817 g0 z=ic(zzbez)
+N818 x79 y87
+N819 g1 z=ic(-zzbez) f=fus/2
+N820 REPEAT fr_10 P=KP-1
+N821 g0 z=zbez*2
+N822 ;******************************* p-p g-g VERH PRAVO - IZMEN. PO SLUZHEBN.***
+N823 x46.5 y251
+N824 g1 z0 f=fus
+N825 DPR=12+0.43/2 KP=4 zzbez=dpr+zbez*2             ;KP=3
+N826 ffr_10:G1Z=IC(-DPR/KP) F=r93*2
+N827 g1 x85 F=r93
+N828 x107 y273
+N829 g0 z=ic(zzbez)
+N830 x46.5 y251
+N831 g1 z=ic(-zzbez) f=fus/2
+N832 REPEAT ffr_10 P=KP-1
+N833 SMENA_Z
+N834 ST38: WORK_STEP(38)
+N835 T="11.1" M6
+N836 MSG("T=11.1(1/11) FREZA D=20(2_zub),WORK_STEP(38)")
+N837 R1=20/2  ;rad.frezi
+N838 ;************************************************
+N839 G0 G54 B180
+N840 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N841 REGIME(20,20,2,0.05)
+N842 WAIT_TO_CHECK 
+N843 ;********paz h=20+0.52**L=18+1.1***** p-p D-D***
+N844 g0 G54 x15 y174 d1 m3
+N845 z10 m8
+N846 g1 z0 f=fus
+N847 DPR=18+1.1/2 KP=3 zzbez=dpr+zbez*2
+N848 fr_20:G1Z=IC(-DPR/KP) F=r93*2
+N849 g1 y177 F=r93
+N850 x47
+N851 g0 z=ic(zzbez)
+N852 x15 y174
+N853 g1 z=ic(-zzbez) f=fus/2
+N854 REPEAT fr_20 P=KP-1
+N855 G0 Z=ZBEZ*2
+N856 X15 Y96;  edet na nizhnii paz
+N857 G1 Z-25 F=FUS/2
+N858 Z-35 F=R93
+N859 g0 z50 m9
+N860 SMENA_Z
+N861 ST39: WORK_STEP(39)
+N862 T="6.1" M6
+N863 MSG("T=6.1(1/6) FREZA D=28(2_zub),WORK_STEP(39)")
+N864 R1=28/2  ;rad.frezi
+N865 ;************************************************
+N866 G0 G54 B180
+N867 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N868 REGIME(25,28,6,0.05)
+N869 ;********paz h=28+/-0.42**L=35+/-0.5***** p-p D-D***
+N870 g0 G54 x15 y96 d1 m3
+N871 z10 m8
+N872 g1 z0 f=fus
+N873 DPR=35 KP=5 zzbez=dpr+zbez*2
+N874 fr_28:G1Z=IC(-DPR/KP) F=r93*2
+N875 g1 y123 F=r93
+N876 G4 F2
+N877 g0 z=ic(zzbez)
+N878 x15 y96
+N879 g1 z=ic(-zzbez) f=fus/2
+N880 REPEAT fr_28 P=KP-1
+N881 g0 z50 m9
+N882 SMENA_Z
+N883 MSG("PROVER GODNOST DETALI A4!!!!")
+N884 M0
+N885 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+N886 MSG("SNIMI, PRODYI, POMERIAJ RAZMERI, ULIBNIS")
+N887 WORK_DONE
+N888 GOTOF _ENDE
+N889 ST999:TO_BROKEN
+N890 _ENDE:T0 M6
+N891 M91
+N892 WORK_STEP(0)
+N893 M30
+N894 ;***************************************************
+N895 _proverka:
+N896 ZBEZ=3
+N897 XBEZ=10
+N898 YBEZ=7 
+N899 ;***************************************************
+N900 ;_______detal_A1 _storona B0__TRANS ___na nizhnij rombich. palec t.k. razmeri ot nego
+N901 X_B0=R11+105            ;OS_X TRANS  
+N902 Y_B0=R21-290            ;OS_Y TRANS
+N903 Z_B0=R31+67.77          ;OS_Z TRANS tolshchina detali
+N904 ;_______detal_A2 _storona BB0__TRANS
+N905 X_BB0=R12-105           ;OS_X TRANS  
+N906 Y_BB0=R22-290           ;OS_Y TRANS
+N907 Z_BB0=R32+67.77         ;OS_Z TRANS tolshchina detali
+N908 ;_______detal_A3 _storona B180__TRANS
+N909 X_B180=R13+105          ;OS_X TRANS  
+N910 Y_B180=R23-290          ;OS_Y TRANS
+N911 Z_B180=R33+67.77        ;OS_Z TRANS tolshchina detali
+N912 ;_______detal_A4 _storona BB180__TRANS
+N913 X_BB180=R14-105         ;OS_X TRANS  
+N914 Y_BB180=R24-290         ;OS_Y TRANS
+N915 Z_BB180=R34+67.77       ;OS_Z TRANS tolshchina detali
+N916 STOPRE
+N917 ;**************************YSTANOV I**********
+N918 ;*poraydok obrabotki***metka***magazin/gnezdo***NALADKA INSTRUMENTA******
+N919  IF WORKING_STEP<=1   GOTOB ST1  ;T=27.2(2/30)   FREZA D=20 TC= 1 MIN
+N920  M91 ;poka ne zak-ca smena palet 
+N921  IF WORKING_STEP==2   GOTOB ST2  ;T2.1(2/1)   SVERLO CENTR. 16/90 TC=1.5 MIN
+N922  IF WORKING_STEP==3   GOTOB ST3  ;T6.2(2/6)  FREZA D=10 TC=0.5 MIN
+N923  IF WORKING_STEP==4   GOTOB ST4  ;T3.1(1/2)  SVERLO D=13+0.27 TC=2.5 MIN
+N924  IF WORKING_STEP==5   GOTOB ST5  ;T4.1(1/4)  SVERLO D=6* TC=1 MIN
+N925  IF WORKING_STEP==6   GOTOB ST6  ;T13.2(2/13) SVERLO D=10.8 TC=1 MIN
+N926  IF WORKING_STEP==7   GOTOB ST7  ;T1.2(1/2) SVERLO KOMB ANAJ D=8.3 TC=0.5 MIN
+N927  IF WORKING_STEP==8   GOTOB ST8  ;T5.1(1/5)   SVERLO D=8 L=26 TC=0.5 MIN
+N928  IF WORKING_STEP==9   GOTOB ST9  ;T7.1(1/7) FREZA D=8(2_zub) TC=0.5 MIN
+N929 ;**********************************A2******************************************
+N930  IF WORKING_STEP==10   GOTOB ST10  ;T2.1(1/2)   SVERLO CENTR. 16/90 TC=1 MIN
+N931  IF WORKING_STEP==11   GOTOB ST11  ;T3.1(1/3)  SVERLO D=13+0.43* TC=2 MIN
+N932  IF WORKING_STEP==12   GOTOB ST12  ;T18.1(1/18) SVERLO D=13.8<180 TC=1 MIN
+N933  IF WORKING_STEP==13   GOTOB ST13  ;T18.2(2/18) RAZV-KA D=14+0.045 TC=1 MIN
+N934  IF WORKING_STEP==14   GOTOB ST14  ;T19.1(1/19) FREZA D=13 TC=0.5 MIN
+N935  IF WORKING_STEP==15   GOTOB ST15  ;T19.2(2/19) FREZA D=14 TC=2.5 MIN
+N936  IF WORKING_STEP==16   GOTOB ST16  ;T11.2(2/11) FREZA D=6 TC=1.5 MIN
+N937  IF WORKING_STEP==17   GOTOB ST17  ;T7.1(1/7)  FREZA D=8 TC= 3 MIN
+N938  IF WORKING_STEP==18   GOTOB ST18  ;T6.2(2/6) FREZA D=10 TC= 1.5 MIN
+N939  IF WORKING_STEP==19   GOTOB ST19  ;T11.1(1/11) FREZA D=20 TC=4.5 MIN
+N940  IF WORKING_STEP==20   GOTOB ST20  ;T6.1(1/6)  FREZA D=28 TC=2.5 MIN
+N941 ;**********************************A3/A4******************************************
+N942  IF WORKING_STEP<=21   GOTOB ST21   ;T=27.2(2/30)   FREZA D=20 TC=1 MIN
+N943  IF WORKING_STEP==22   GOTOB ST22  ;T2.1(1/2)   SVERLO CENTR. 16/90 TC=1.5 MIN
+N944  IF WORKING_STEP==23   GOTOB ST23  ;T6.2(2/6)  FREZA D=10 TC=0.5 MIN
+N945  IF WORKING_STEP==24   GOTOB ST24  ;T3.1(1/3)  SVERLO D=13+0.27 TC=2.5 MIN
+N946  IF WORKING_STEP==25   GOTOB ST25  ;T4.1(1/4)  SVERLO D=6* TC=1 MIN
+N947  IF WORKING_STEP==26   GOTOB ST26  ;T13.2(2/13) SVERLO D=10.8 TC=1 MIN
+N948  IF WORKING_STEP==27   GOTOB ST27  ;T1.2(1/2) SVERLO KOMB ANAJ D=8.3 TC=0.5 MIN
+N949  IF WORKING_STEP==28   GOTOB ST28  ;T5.1(1/5)   SVERLO D=8 L=26 TC=0.5 MIN
+N950  IF WORKING_STEP==29   GOTOB ST29  ;T7.1(1/7) FREZA D=8(2_zub) TC=0.5 MIN
+N951 ;**********************************A4******************************************
+N952  IF WORKING_STEP==30   GOTOB ST30  ;T2.1(1/2)   SVERLO CENTR. 16/90 TC=1 MIN
+N953  IF WORKING_STEP==31   GOTOB ST31  ;T3.1(1/2)  SVERLO D=13+0.43* TC=2 MIN
+N954  IF WORKING_STEP==32   GOTOB ST32  ;T18.1(1/18) SVERLO D=13.8<180 TC=1 MIN
+N955  IF WORKING_STEP==33   GOTOB ST33  ;T18.2(2/18) RAZV-KA D=14+0.045 TC=1 MIN
+N956  IF WORKING_STEP==34   GOTOB ST34  ;T19.1(1/19) FREZA D=13 TC=0.5 MIN
+N957  IF WORKING_STEP==35   GOTOB ST35  ;T19.2(2/19) FREZA D=14 TC=2.5 MIN
+N958  IF WORKING_STEP==36   GOTOB ST36  ;T11.2(2/11) FREZA D=6 TC=1.5 MIN
+N959  IF WORKING_STEP==37   GOTOB ST37  ;T7.1(1/7)  FREZA D=8 TC=3 MIN
+N960  IF WORKING_STEP==38   GOTOB ST38  ;T6.2(2/6) FREZA D=10 TC=1.5 MIN
+N961  IF WORKING_STEP==39   GOTOB ST39  ;T11.1(1/11) FREZA D=20 TC=4.5 MIN
+N962  IF WORKING_STEP==40   GOTOB ST40  ;T6.1(1/6)  FREZA D=28 TC=2.5 MIN
+N963  IF WORKING_STEP==999  GOTOB ST999
+N964 ENDIF
+N965 
+N966 AA: MSG("Neverniy etap obrabotki.Ti ne prav,poshevili mozgami!!!")
+N967 M0
+N968 GOTOB AA
+N969 GOTOB START_1
+N970 

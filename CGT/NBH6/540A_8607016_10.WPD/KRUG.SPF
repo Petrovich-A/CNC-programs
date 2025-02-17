@@ -1,0 +1,12 @@
+N347 DEF REAL RO,zbez
+N348 zbez=3
+N349 RO=30.165/2   ;D=30+0.33
+N350 ;-----------rabota-----------
+N351 G0 Z=zbez
+N352 G1 Z-2.15 F=r93*2 
+N353 G42 Y=IC(-RO) F=r93/3
+N354 G2 Y=IC(0) J=(RO) F=r93
+N355 G0 G40  Y=IC(RO)
+N356 Z10
+N357 M17
+

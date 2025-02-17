@@ -1,0 +1,66 @@
+N1 ;OBKATKA PALCA 2_USTANOVA!!!!!!!!!!
+N2 ;detal 7548-1712212-10 korpus zolotnik
+N3 ;OPER 110  ---- YSTANOV II ----B180/B270-----G56-------
+N4 ;STANOK nbh-6 INV.zav. A.10003135.02  (frezerovka pazov!!!!)
+N5 ;KOPTYAEV S.G          03.12.09
+N6 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,Y_B180,X_B180,Z_B180,Y_B270,X_B270,Z_B270,DPR,KP,TF,TS
+N7 DEFINE SMENA_Z AS g0 g53 z930 d0 m5 
+N8 ;**PERENOS S "OBKATKI"*R10(OS_X) R20(OS_Y)***
+N9 R10=0.51  ;OS_X
+N10 R20=0.02  ;OS_Y
+N11 M0
+N12 $AC_TIMER[1]=0  ;cikl starta time/min
+N13 GOTOF _proverka
+N14 START_1:
+N15 ; ********rabota*********G56*****YSTANOV II*****
+N16 ST1: WORK_STEP(1)
+N17 SMENA_Z
+N18 G0 G56 G17 G40 G90 G94                     ;g56!!!!
+N19 ; ********rabota*********G56*****YSTANOV II*****
+N20 ST1: WORK_STEP(1)
+N21 SMENA_Z
+N22 G0 G56 G17 G40 G90 G94                     ;g56!!!!
+N23 T11 M6
+N24 MSG("T11(1/3) SVERLO D=13****NA L=15*,WORK_STEP(1) ")
+N25 ;*************************************************** T11
+N26 G0 g56 B180
+N27 ;N25 TRANS X=X_B180 Z=Z_B180 Y=Y_B180           ; B180_!!!
+N28 ;N26 REGIME(21,13,2,0.073)
+N29 G0 G53 X-350 Y150
+N30 MSG("POSTAV OBKATNIK")
+N31 M0
+N32 M0
+N33 G0 G56 B180
+N34 X0 Y0 D1 ;M3
+N35 M0
+N36 M0
+N37 SMENA_Z
+N38 MSG("UBERI OBKATNIK,POSTAV T11(1/3) V HSPINDEL")
+N39 M0
+N40 M0
+N41 M30
+N42 _proverka:
+N43 ;_______2_ustanov_detal______storona B180/B270____G56____
+N44 ;*G56-X-centr STOLA,Y-PLOSKOST paleti,Z-centr STOLA
+N45 $P_UIFR[3]=CTRANS(X,-108+R10,Y,180+100+R20,Z,0,B,180);  G56 B0 bilo Y=319-80=239  ;bilo z-200
+N46 
+N47 
+N48 ZBEZ=3
+N49 XBEZ=10
+N50 YBEZ=7                        
+N51 ;_B180 _
+N52 STOPRE
+N53 ;**************************YSTANOV 2****************************
+N54 ;*poraydok obrabotki***metka***magazin/gnezdo*******NALADKA INSTRUMENTA******
+N55  IF WORKING_STEP<=1   GOTOB ST1  ;T11(../..)SVERLO D=13+0.43*
+N56  M91 ;poka nezak-ca cmena palet 
+N57 
+N58  IF WORKING_STEP==999  GOTOB ST999
+N59 ENDIF
+N60 
+N61 AA: MSG("Neverniy etap obrabotki.Ti ne prav,poshevili mozgami!!!")
+N62 M0
+N63 GOTOB AA
+N64 GOTOB START_1
+N65 ; NE UDOLAYT VSE RABOTAET
+N66 

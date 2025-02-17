@@ -1,0 +1,553 @@
+N1 ;detal 75551H-1712162 
+N2 ;OPER 
+N3 ;STANOK nbh-6 INV12506
+N4 ;KOPTYAEV S.G   27.05.2013 
+N5 ;TC=66_MIN(NA 1_ust,(DETAL_A1(B0,B90),2_ust_DETAL_A2(BB0,BB90),3_ust_DETAL_A3(BBB0,BBB270)
+N6 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,Y_B90,X_B90,Z_B90,Y_B0,X_B0,Z_B0,Y_BB90,X_BB90,Z_BB90,Y_BB0,X_BB0,Z_BB0,Y_BBB270,X_BBB270,Z_BBB270,Y_BBB0,X_BBB0,Z_BBB0,DPR,KP,TF,TS
+N7 ;DEFINE SMENA_ZYX AS G75 FP=1 Z1=0 Y1=0 X1=0 SPOS=0  
+N8 DEFINE SMENA_Z AS g0 g53 z930 d0 M9 m5 
+N9 $AC_TIMER[1]=0  ;cikl starta time/min
+N10 ;;;;;;;;;;zamer zagotovki_________
+N11 R10=183    ;183+/-0.5 !!izmen mogno !!
+N12 R11=148.2    ;148+/-0.5 !!izmen mogno !!
+N13 R12=68.2     ;68-0.4    !!izmen mogno !!
+N14 R13=177.8  ; 177.8+/-0.2 (178-0.4) chisto no lovim r-r 116+/-0.7 ne izmen
+N15 ;////////////////////////////////////////////////////
+N16 ;__1_UST_detal_A1 _storona !!!B0_!!!!_____1_UST_A1
+N17 R1=450+70+0.22           ;os_y os palca oporn
+N18 R2=149.410+0.45              ;+0.45 os_x PLOSKOST PO PALCY
+N19 R3=174.964          ;os_z torec PRILADI 490-315 ili 350/2
+N20 ;__2_UST_detal_A2 _storona !!!BB0_BB90!!!!_____2_UST_A2
+N21 R4=450+70+0.22           ;os_y os palca oporn
+N22 R5=149.410+0.45              ;+0.45 os_x PLOSKOST PO PALCY
+N23 R6=174.964          ;os_z torec PRILADI 490-315 ili 350/2
+N24 ;__3_UST_detal_A3 _storona !!!BBB0_BBB90!!!!_____3_UST_A3
+N25 R7=450+70+0.35-0.12     ;os_y os palca oporn KIM_48.19
+N26 R8=-150.061              ;os_x PLOSKOST PO PALCu
+N27 R9=174.964           ;os_z torec PRILADI 490-315 ili 350/2
+N28 GOTOF _proverka_2
+N29 START_2:
+N30 ; ********rabota*********G54*
+N31 ;/////////////////////////A1-1_ust\\\\\\\\\\\\\\\\\\\\\\\\
+N32 ;__1_UST_detal_A1 _storona !!!B0,B90_!!!!_____1_UST_A1
+N33 ST1: WORK_STEP(1)
+N34 MSG("1_UST_detal_A1 ,izmerenie zagotovki R10,R11,R12 smotri eskiz,SBROS NC,POISK KADRA_N36")
+N35 ;X-*rabota chisto torec_L=177.8+(183-177.8)/2,1_otv-D=34.3+0..._L=178,4_otv D=6.7+0.2(m8*1.25)_L=25_max,6_otv-d13+0.43_L=68,2_otv-K1/8_gost6111-52 D8_L=34-34.3/2,D8.4+0.16/-0.04_L=18,****
+N36 M5M0
+N37 SMENA_Z
+N38 G0 G54 G17 G40 G90 G94          ;G54!!!!
+N39 T="21.1" M6
+N40 MSG("T=21.1 FREZA chern.D=125,WORK_STEP(1) ")
+N41 R30=125/2  ;rad.frezi
+N42 ;************************************************ T=21.1
+N43 G0 g54 B90
+N44 TRANS X=X_B90 Z=Z_B90 Y=Y_B90       ; B90_!!!1_UST_A1
+N45 REGIME(100,125,7,0.15)
+N46 G0 X0 Y=90+r30+YBEZ D1
+N47 DPR=(r10-r13)/2 KP=2
+N48 Z=DPR+zpripusk M3
+N49 MM1:G1Z=IC(-DPR/KP) F=fus
+N50 G1 y=-(58+r30+YBEZ)  F=R93 M8 ;F=TF
+N51 G0 z=IC(1)
+N52 Y=90+r30+YBEZ
+N53 Z=IC(-1)
+N54 REPEAT MM1 P=KP-1
+N55 SMENA_Z
+N56 ST2: WORK_STEP(2)
+N57 T="21.2" M6
+N58 MSG("T21.2 FREZA chist.D=125,WORK_STEP(2) ")
+N59 R31=125/2  ;rad.frezi
+N60 ;*************************************************** T21.2
+N61 G0 g54 B90
+N62 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N63 REGIME(150,125,7,0.08)
+N64 G0 X0 Y=90+r31+YBEZ D1
+N65 Z20 M3
+N66 g1 z0 F=fus
+N67 y=-(58+r31+YBEZ)  F=R93 M8 ;F=TF
+N68 SMENA_Z
+N69 ST3: WORK_STEP(3)
+N70 T="28.1" M6
+N71 MSG("T28.1 sverlo centr D22<90_gr,WORK_STEP(3)")
+N72 ;************************************************ T28.1
+N73 G0 g54 B90
+N74 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N75 REGIME(15,16,2,0.1)
+N76 g0 g54 x0 y0 d1   
+N77 z50  m3 m8
+N78 CYCLE82(50,0,zbez,,15/2,1) 
+N79 SMENA_Z
+N80 ST4: WORK_STEP(4)
+N81 T="22.1" M6
+N82 MSG(" T22.1-Sverlo D=30 L_RAB=185_min,WORK_STEP(4) ")
+N83 ;****************************************************T22.1
+N84 G0 g54 B90
+N85 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N86 REGIME(15,33,2,0.11)
+N87 g0 g54 x0 y0 d1   
+N88 z50  m3 m8
+N89 CYCLE83(50,0,zbez*3,,183,,16,6,,,1,1) 
+N90 SMENA_Z
+N91 ST5: WORK_STEP(5)
+N92 T="20.1" M6
+N93 MSG(" T201.1-rezec d=33.9 L_RAB=185_min,WORK_STEP(5) ")
+N94 ;***************************************** T20.1
+N95 G0 g54 B90
+N96 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N97 REGIME(20,33.9,1,0.21)
+N98 G0 G54 X0 Y0 D1
+N99 Z50 M3 M8
+N100 CYCLE81(50,0,zbez,,182)
+N101 SMENA_Z
+N102 ST6: WORK_STEP(6)
+N103 T="8.2" M6
+N104 MSG(" T8.2-MIKR. d=34.3+0.1 L_RAB=185_min,WORK_STEP(6) ")
+N105 ;***************************************** T8.2
+N106 G0 g54 B90
+N107 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N108 REGIME(20,34.3,1,0.15)
+N109 G0 G54 X0 Y0 D1
+N110 Z50 M3 M8
+N111 CYCLE81(50,0,zbez,,12)  ;probn...
+N112 SMENA_Z
+N113 SPOS=90  ;prover spos=!!!!
+N114 MSG("!!!MEReT d=34.3+0.1!!!!")
+N115 M5M0 ;MEReT d=34.3+0.1
+N116 G0 G54 X0 Y0 D1
+N117 Z50 M3 M8                 ;X,  Y , Z ,
+N118 CYCLE86(50,0,zbez,,181,1,3,0,-0.5,0.5,90)
+N119 SMENA_Z
+N120 ST7: WORK_STEP(7)
+N121 T="28.1" M6
+N122 MSG("T28.1 sverlo centr D22<90_gr,WORK_STEP(7)")
+N123 ;************************************************ T28.1
+N124 G0 g54 B90
+N125 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N126 REGIME(15,16,2,0.1)
+N127 ;/////4_otv D=6.7+0.2(m8*1.25)L=25_max/////////
+N128 g0 g54 x=36/2 y=-58/2 d1   
+N129 z50  m3 
+N130 MCALL CYCLE82(50,0,zbez,,10/2,1)
+N131 x=36/2 y=-58/2  m8  ;1
+N132 x=36/2 y=58/2     ;2
+N133 x=-36/2 y=58/2    ;3
+N134 x=-36/2 y=-58/2   ;4
+N135 MCALL 
+N136 SMENA_Z
+N137 G0 g54 B0
+N138 TRANS X=X_B0 Z=Z_B0 Y=Y_B0        ; B0_!!!1_UST_A1
+N139 ;/////6_otv-d13+0.43_L=68/////////
+N140 g0 g54 x=-14 y=r11-38 d1   
+N141 z100  m3
+N142 MCALL CYCLE82(100,0,zbez,,13.5/2,1)
+N143 x=-14       y=r11-38  m8  ;1
+N144 x=-14-95    y=r11-38      ;2
+N145 x=-14-150   y=r11-38      ;3
+N146 x=-14-140   y=r11-38-97   ;4
+N147 x=-14-82    y=r11-38-97   ;5
+N148 x=-14-10    y=r11-38-97   ;6
+N149 MCALL 
+N150 ;/2_otv-K1/8_gost6111-52 D8_L=34-34.3/2,D8.4+0.16/-0.04_L=18/
+N151 g0 g54 x=-14-48 y=r11-38+13 d1   
+N152 z100  m3
+N153 MCALL CYCLE82(100,0,zbez,,11.6/2,1)
+N154 x=-14-48  y=r11-38+13      ;1
+N155 x=-14-16  y=r11-38-52      ;2
+N156 MCALL 
+N157 SMENA_Z
+N158 ST8: WORK_STEP(8)
+N159 T="3.1" M6
+N160 MSG(" T3.1-Sverlo d=13+0.43_L=68,WORK_STEP(8) ")
+N161 ;**************************************************T3.1
+N162 G0 g54 B0
+N163 TRANS X=X_B0 Z=Z_B0 Y=Y_B0        ; B0_!!!1_UST_A1
+N164 REGIME(15,13,2,0.11)
+N165 ;/////6_otv-d13+0.43_L=68/////////
+N166 g0 g54 x=-14 y=r11-38 d1   
+N167 z100  m3 
+N168 MCALL CYCLE83(100,0,zbez,,R12+ZBEZ,,10,6,,,1,1)
+N169 ;MCALL CYCLE82(100,0,zbez,,R12+ZBEZ,1)
+N170 x=-14       y=r11-38  m8  ;1
+N171 x=-14-95    y=r11-38      ;2
+N172 x=-14-150   y=r11-38      ;3
+N173 x=-14-140   y=r11-38-97   ;4
+N174 x=-14-82    y=r11-38-97   ;5
+N175 x=-14-10    y=r11-38-97   ;6
+N176 MCALL 
+N177 SMENA_Z
+N178 ST9: WORK_STEP(9)
+N179 T="13.2" M6
+N180 MSG(" T13.2-Sverlo D=8.4+0.16/-0.04,WORK_STEP(9) ")
+N181 ;**************************************************T13.2
+N182 G0 g54 B0
+N183 TRANS X=X_B0 Z=Z_B0 Y=Y_B0        ; B0_!!!1_UST_A1
+N184 REGIME(15,8,2,0.1)
+N185 ;////2_otv-K1/8_gost6111-52 D8.4+0.16/-0.04_L=18////
+N186 g0 g54 x=-14-48 y=r11-38+13 d1   
+N187 z150  m3 
+N188 MCALL CYCLE83(150,0,zbez,,23,,8,4,,,1,1)
+N189 ;MCALL CYCLE81(150,0,zbez,,23)
+N190 x=-14-48  y=r11-38+13  m8  ;1
+N191 x=-14-16  y=r11-38-52      ;2
+N192 MCALL
+N193 SMENA_Z
+N194 ST10: WORK_STEP(10)
+N195 T="9.2" M6
+N196 MSG("T9.2 sverlo D6.7+0.2,WORK_STEP(10)")
+N197 ;************************************************ T9.2
+N198 G0 g54 B90
+N199 TRANS X=X_B90 Z=Z_B90 Y=Y_B90        ; B90_!!!1_UST_A1
+N200 REGIME(15,6.7,2,0.08)
+N201 ;/////4_otv D=6.7+0.2(m8*1.25)L=25_max/////////
+N202 g0 g54 x=36/2 y=-58/2 d1   
+N203 z50  m3
+N204 MCALL CYCLE83(50,0,zbez,,25,,6,4,,,1,1)
+N205 ;MCALL CYCLE81(50,0,zbez,,25)
+N206 x=36/2 y=-58/2  m8  ;1
+N207 x=36/2 y=58/2     ;2
+N208 x=-36/2 y=58/2    ;3
+N209 x=-36/2 y=-58/2   ;4
+N210 MCALL 
+N211 SMENA_Z
+N212 ;///////////////////////////A2-2_ust\\\\\\\\\\\\\\\\\\\
+N213 MSG("2_ust_DETAL_A2__storona !!!BB0,BB90_!!!!")
+N214 M5M0
+N215 M192
+N216 M0
+N217 M193
+N218 M0
+N219 ;**X+*rabota chisto chisto torec_L=177.8+/-0.2,;4_otv D=6.7+0.2(m8*1.25)L=25_max,1_otv-d13+0.43_L=34-34.3/2,1_otv-d6+0.3_L=34-34.3/2,1_otv-d27+0.52_L=34****
+N220 SMENA_Z
+N221 ST11: WORK_STEP(11)
+N222 SMENA_Z
+N223 G0 G54 G17 G40 G90 G94          ;G54!!!!
+N224 T="21.1" M6
+N225 MSG("T=21.1 FREZA chern.D=125,WORK_STEP(11) ")
+N226 R30=125/2  ;rad.frezi
+N227 ;************************************************ T=21.1
+N228 G0 g54 B90
+N229 TRANS X=X_BB90 Z=Z_BB90 Y=Y_BB90       ; BB90_!!!2_UST_A2
+N230 REGIME(100,125,7,0.15)
+N231 G0 X0 Y=90+r30+YBEZ-24 D1
+N232 DPR=(r10-r13)/2 KP=2
+N233 Z=DPR+zpripusk M3
+N234 MM101:G1Z=IC(-DPR/KP) F=fus
+N235 G1 y=-(58+r30+YBEZ)  F=R93 M8 ;F=TF
+N236 G0 z=IC(1)
+N237 Y=90+r30+YBEZ-24
+N238 Z=IC(-1)
+N239 REPEAT MM101 P=KP-1
+N240 SMENA_Z
+N241 ST12: WORK_STEP(12)
+N242 T="21.2" M6
+N243 MSG("T21.2 FREZA chist.D=125,WORK_STEP(12) ")
+N244 R31=125/2  ;rad.frezi
+N245 ;*************************************************** T21.2
+N246 G0 g54 B90
+N247 TRANS X=X_BB90 Z=Z_BB90 Y=Y_BB90        ; BB90_!!!2_UST_A2
+N248 REGIME(150,125,7,0.08)
+N249 G0 X0 Y=90+r31+YBEZ-24 D1
+N250 Z20 M3
+N251 g1 z0 F=fus
+N252 y=-(58+r31+YBEZ)  F=R93 M8 ;F=TF
+N253 SMENA_Z
+N254 ST13: WORK_STEP(13)
+N255 T="28.1" M6
+N256 MSG("T28.1 sverlo centr D22<90_gr,WORK_STEP(13)")
+N257 ;************************************************ T28.1
+N258 G0 g54 B90
+N259 TRANS X=X_BB90 Z=Z_BB90 Y=Y_BB90        ; BB90_!!!2_UST_A2
+N260 REGIME(15,16,2,0.1)
+N261 ;/////4_otv D=6.7+0.2(m8*1.25)L=25_max/////////
+N262 g0 g54 x=36/2 y=-58/2 d1   
+N263 z50  m3
+N264 MCALL CYCLE82(50,0,zbez,,10/2,1)
+N265 x=36/2 y=-58/2 m8   ;1
+N266 x=36/2 y=58/2     ;2
+N267 x=-36/2 y=58/2    ;3
+N268 x=-36/2 y=-58/2   ;4
+N269 MCALL 
+N270 SMENA_Z
+N271 G0 g54 B0
+N272 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0        ; BB0_!!!2_UST_A2
+N273 ;/6_otv-d13+0.43_L=68///POKA NET ESLI S DVUX STORON. NA "A2"
+N274 ;N120 g0 g54 x=14 y=r11-38 d1   ;X+++
+N275 ;N121 z100  m3
+N276 ;N122 MCALL CYCLE82(100,0,zbez,,13.5/2,1)
+N277 ;N123 x=14       y=r11-38  m8  ;1
+N278 ;N123 x=14+95    y=r11-38      ;2
+N279 ;N123 x=14+150   y=r11-38      ;3
+N280 ;N123 x=14+140   y=r11-38-97   ;4
+N281 ;N123 x=14+82    y=r11-38-97   ;5
+N282 ;N123 x=14+10    y=r11-38-97   ;6
+N283 ;N122 MCALL 
+N284 ;////1_otv-d13+0.43_L=34-34.3/2////
+N285 g0 g54 x=14+77 y=r11-38-57 d1   
+N286 z100 m3 m8
+N287 CYCLE82(100,0,zbez,,13.5/2,1)
+N288 ;//// 1_otv-d6+0.3_L=34-34.3/2  ////
+N289 g0 g54 x=14+128 y=r11-38-52 d1   
+N290 z100 
+N291 CYCLE82(100,0,zbez,,6.2/2,1)
+N292 ;//// 1_otv-d27+0.52_L=34****  ////
+N293 g0 g54 x=14+16 y=r11-38-52 d1   
+N294 z100
+N295 CYCLE82(100,0,zbez,,16/2,1)
+N296 SMENA_Z
+N297 ST14: WORK_STEP(14)
+N298 T="3.1" M6
+N299 MSG(" T3.1-Sverlo d13+0.43_L=34-34.3/2,WORK_STEP(14) ")
+N300 ;**************************************************T3.1
+N301 G0 g54 B0
+N302 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0        ; BB0_!!!2_UST_A2
+N303 REGIME(15,13,2,0.1)
+N304 ;////1_otv-d13+0.43_L=34-34.3/2////
+N305 g0 g54 x=14+77 y=r11-38-57 d1   
+N306 z100  m3 m8
+N307 CYCLE82(100,0,zbez*2,,25,1)
+N308 ;///6_otv-d13+0.43_L=68//POKA NET,ESLI S DVUX STORON. NA "A2"
+N309 ;N120 g0 g54 x=14 y=r11-38 d1   ;X+++  
+N310 ;N121 z100  m3
+N311 ;N122 MCALL CYCLE82(100,0,zbez,,13.5/2,1)
+N312 ;N123 x=14       y=r11-38  m8  ;1
+N313 ;N123 x=14+95    y=r11-38      ;2
+N314 ;N123 x=14+150   y=r11-38      ;3
+N315 ;N123 x=14+140   y=r11-38-97   ;4
+N316 ;N123 x=14+82    y=r11-38-97   ;5
+N317 ;N123 x=14+10    y=r11-38-97   ;6
+N318 ;N122 MCALL 
+N319 SMENA_Z
+N320 ST15: WORK_STEP(15)
+N321 T="4.1" M6
+N322 MSG(" T4.1-Sverlo d6+0.3_L=34-34.3/2,WORK_STEP(15) ")
+N323 ;**************************************************T4.1
+N324 G0 g54 B0
+N325 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0        ; BB0_!!!2_UST_A2
+N326 REGIME(15,6,2,0.08)
+N327 ;//// 1_otv-d6+0.3_L=34-34.3/2  ////
+N328 g0 g54 x=14+128 y=r11-38-52 d1   
+N329 z100  m3 m8
+N330 CYCLE83(100,0,zbez,,20,,6,4,,,1,1)
+N331 ;CYCLE82(100,0,zbez,,20,1)
+N332 SMENA_Z
+N333 ST16: WORK_STEP(16)
+N334 T="29.1" M6
+N335 MSG(" T29.1-Sverlo d27+0.52_L=34,WORK_STEP(16) ")
+N336 ;**************************************************T29.1
+N337 G0 g54 B0
+N338 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0        ; BB0_!!!2_UST_A2
+N339 REGIME(15,27,2,0.12)
+N340 ;//// 1_otv-d27+0.52_L=34****  ////
+N341 g0 g54 x=14+16 y=r11-38-52 d1   
+N342 z100  m3 m8
+N343 CYCLE83(100,0,zbez*3,,30,,12,8,,,1,1)
+N344 ;N122 CYCLE82(100,0,zbez*3,,30,1)
+N345 SMENA_Z
+N346 ST17: WORK_STEP(17)
+N347 T="9.2" M6
+N348 MSG("T9.2 sverlo D6.7+0.2,WORK_STEP(17)")
+N349 ;************************************************ T9.2
+N350 G0 g54 B90
+N351 TRANS X=X_BB90 Z=Z_BB90 Y=Y_BB90        ; BB90_!!!2_UST_A2
+N352 REGIME(15,6.7,2,0.08)
+N353 ;/////4_otv D=6.7+0.2(m8*1.25)L=25_max/////////
+N354 g0 g54 x=36/2 y=-58/2 d1   
+N355 z50  m3 m8
+N356 MCALL CYCLE83(50,0,zbez,,25,,6,4,,,1,1)
+N357 ;MCALL CYCLE81(50,0,zbez,,25)
+N358 x=36/2 y=-58/2    ;1
+N359 x=36/2 y=58/2     ;2
+N360 x=-36/2 y=58/2    ;3
+N361 x=-36/2 y=-58/2   ;4
+N362 MCALL 
+N363 SMENA_Z
+N364 ;///////////////////////////A3-3_ust\\\\\\\\\\\\\\\\
+N365 MSG("3_ust_DETAL_A3__storona !!!BBB0,BBB270_!!!!")
+N366 M5M0
+N367 M192
+N368 M0
+N369 M193
+N370 M0
+N371 ;******rabota chisto 1_otv-D=35+0.62_L=65,1_otv-D25+0.52_L=90,1_otv-d28+0.52,4_otv_D=10.2+0.27(m12*1.75)_L=24_max ****
+N372 ST18: WORK_STEP(18)
+N373 T="28.1" M6
+N374 MSG("T28.1 sverlo centr D22<90_gr,WORK_STEP(18)")
+N375 ;************************************************ T28.1
+N376 G0 g54 B0
+N377 TRANS X=X_BBB0 Z=Z_BBB0 Y=Y_BBB0        ; B0_!!!3_UST_A3
+N378 REGIME(15,16,2,0.1)
+N379 ;////////1_otv-d28+0.52////////
+N380 g0 g54 x=-(R11-38-15) y=14+48 d1 
+N381 z100  m3 m8
+N382 CYCLE82(100,0,zbez,,15/2,1) 
+N383 SMENA_Z
+N384 G0 g54 B270
+N385 TRANS X=X_BBB270 Z=Z_BBB270 Y=Y_BBB270   ; BBB270_!!!3_UST_A3
+N386 REGIME(15,16,2,0.1)
+N387 ;//////1_otv-D=35+0.62_L=65,1_otv-D25+0.52_L=90////////
+N388 g0 g54 x0 y0 d1   
+N389 z50  m3 m8
+N390 CYCLE82(50,0,zbez,,15/2,1) 
+N391 ;/////4_otv_D=10.2+0.27(m12*1.75)_L=24_max /////////
+N392 g0 g54 x=40/2 y=-76/2 d1   
+N393 MCALL CYCLE82(50,0,zbez,,13.4/2,1)
+N394 x=40/2 y=-76/2 m8   ;1
+N395 x=40/2 y=76/2     ;2
+N396 x=-40/2 y=76/2    ;3
+N397 x=-40/2 y=-76/2   ;4
+N398 MCALL 
+N399 SMENA_Z
+N400 ST19: WORK_STEP(19)
+N401 T="10.1" M6
+N402 MSG(" T1.1-Sverlo D=35 L_RAB=70_min,WORK_STEP(19) ")
+N403 ;****************************************************T10.1
+N404 G0 g54 B270
+N405 TRANS X=X_BBB270 Z=Z_BBB270 Y=Y_BBB270   ; BBB270_!!!3_UST_A3
+N406 REGIME(15,35,2,0.11)
+N407 ;////////1_otv-D=35+0.62_L=65////////////////////
+N408 g0 g54 x0 y0 d1   
+N409 z50  m3 m8
+N410 CYCLE83(50,0,zbez*3,,65,,12,8,,,1,1) 
+N411 SMENA_Z
+N412 ST20: WORK_STEP(20)
+N413 T="28.2" M6
+N414 MSG(" T28.2-Sverlo D=25 L_RAB=90_min,WORK_STEP(20) ")
+N415 ;****************************************************T28.2
+N416 G0 g54 B270
+N417 TRANS X=X_BBB270 Z=Z_BBB270 Y=Y_BBB270   ; BBB270_!!!3_UST_A3
+N418 REGIME(15,25,2,0.11)
+N419 ;////////1_otv-D25+0.52_L=90//////////////
+N420 g0 g54 x0 y0 d1   
+N421 z50  m3 m8
+N422 CYCLE81(150,-65,zbez*3,,25) ;L=90-65 
+N423 ;N160 CYCLE83(150,-65,zbez*3,,25,,12,8,,,1,1) ;L=90-65 
+N424 SMENA_Z
+N425 ST21: WORK_STEP(21)
+N426 T="17.2" M6
+N427 MSG("T17.2-Sverlo D=10.2+0.27(m12*1.75)_L=24_max,WORK_STEP(21) ")
+N428 ;****************************************************T17.2
+N429 G0 g54 B270
+N430 TRANS X=X_BBB270 Z=Z_BBB270 Y=Y_BBB270   ; BBB270_!!!3_UST_A3
+N431 REGIME(15,10.2,2,0.11)
+N432 ;/////4_otv_D=10.2+0.27(m12*1.75)_L=24_max /////////
+N433 g0 g54 x=40/2 y=-76/2 d1 M3
+N434 MCALL CYCLE83(50,0,zbez,,24,,6,4,,,1,1)   
+N435 ;N122 MCALL CYCLE81(50,0,zbez,,24)
+N436 x=40/2 y=-76/2 m8   ;1
+N437 x=40/2 y=76/2     ;2
+N438 x=-40/2 y=76/2    ;3
+N439 x=-40/2 y=-76/2   ;4
+N440 MCALL 
+N441 SMENA_Z
+N442 ST22: WORK_STEP(22)
+N443 T="29.2" M6
+N444 MSG("T29.2 sverlo d28+0.52,WORK_STEP(22)")
+N445 ;************************************************ T29.2
+N446 G0 g54 B0
+N447 TRANS X=X_BBB0 Z=Z_BBB0 Y=Y_BBB0        ; B0_!!!3_UST_A3
+N448 REGIME(15,16,2,0.1)
+N449 ;////////1_otv-d28+0.52////////
+N450 g0 g54 x=-(R11-38-15) y=14+48 d1 
+N451 z100  m3 m8
+N452 ;CYCLE81(100,0,zbez*2,,r12/2)  ;68/2=34
+N453 CYCLE83(100,0,zbez*3,,R12/2,,12,8,,,1,1) 
+N454 SMENA_Z
+N455 ;==========================================================
+N456 
+N457 MSG("POLUCHI GOTOVUYU,GODNUYU DETAL.Nezabud podelitca!!!!")
+N458 ;M0
+N459 ;==========================================================
+N460 WORK_DONE
+N461 GOTOF _ENDE
+N462 
+N463 ST999:TO_BROKEN
+N464  _ENDE:T0 M6
+N465 M91
+N466 WORK_STEP(0)
+N467 ; MSG("PIPEC PROGRAMME *** VSE DOMOY ***")
+N468 R98=$AC_TIMER[1]
+N469 ;N68 R98=R98/60  ;cycle TIME/MIN
+N470 M30
+N471 _proverka_2:
+N472 ;*G54-X-centr STOLA,Y-PLOSKOST paleti,Z-centr STOLA
+N473 $P_UIFR[1]=CTRANS(X,0,Y,0,Z,0,B,0);  G54 
+N474 ZBEZ=3
+N475 XBEZ=10
+N476 YBEZ=10 
+N477 zpripusk=0.5 
+N478 ;///////////////////////////A1-1_ust\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+N479 ;__1_UST_detal_A1 _storona !!!B0_!!!!_____1_UST_A1
+N480 Y_B0=r1+25/2                      ;OS_Y TRANS r1=450+70     ;os_y  nign torec detali
+N481 X_B0=r2+25/2+(r10-177.8)/2+177.8  ;OS_X TRANS r2=150   !! r10=183 zamer!!!  ;os_x 178-0.4
+N482 Z_B0=r3+25+r12                     ;OS_Z TRANS r3=175   ;!!r12=68_zamer!!!os_z torec detali
+N483 ;__1_UST_detal_A1 _storona !!!B90_!!!!_____1_UST_A1
+N484 Y_B90=Y_B0+r11-38-52   ;OS_Y TRANS r1=470   !!r11=148 zamer!!! ;os_y d35
+N485 X_B90=-(Z_B0-r12/2)     ;OS_X TRANS          !!r12=68_zamer!!!   ;os_x d35
+N486 Z_B90=X_B0             ;OS_Z TRANS         ;os_z torec detali
+N487 
+N488 ;///////////////////////////A2-2_ust\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+N489 ;__2_ust_DETAL_A2__storona !!!BB0_!!!!____2_ust_A2
+N490 Y_BB0=r4+25/2          ;OS_Y TRANS r4=450+70    ;os_y 
+N491 X_BB0=r5+25/2          ;OS_X TRANS r5=150       ;os_x 
+N492 Z_BB0=r6+25+r12         ;OS_Z TRANS r6=175       ;!!r12=68_zamer!!!os_z torec detali
+N493  ;__2_UST_detal_A2 _storona !!!BB90_!!!!_____2_UST_A2
+N494 Y_BB90=Y_BB0+R11-38-52      ;OS_Y  TRANS  os_y d35 
+N495 X_BB90=-(Z_BB0-r12/2)    ;OS_X TRANS          !!r12=68_zamer!!!   ;os_x d35
+N496 Z_BB90=X_BB0+r13      ;OS_Z TRANS  ;os_z torec detali r13=178-0.4 
+N497 
+N498 ;///////////////////////////A3-3_ust\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+N499 ;__3_ust_DETAL_A3__storona !!!BBB0_!!!!____3_ust_A3
+N500 Y_BBB0=r7+25/2          ;OS_Y TRANS r7=450+70     ;os_y 
+N501 X_BBB0=r8-40/2          ;OS_X TRANS r8=-150       ;os_x 
+N502 Z_BBB0=r9+25+r12         ;OS_Z TRANS r9=175       ;!!r12=68_zamer!!!os_z torec detali
+N503  ;__3_UST_detal_A3 _storona !!!BBB90_!!!!_____3_UST_A3
+N504 Y_BBB270=Y_BBB0+14+48     ;OS_Y  TRANS  os_y d35 
+N505 X_BBB270=Z_BBB0-r12/2      ;OS_X TRANS     !!r12=68_zamer!!!   ;os_x d35
+N506 Z_BBB270=ABS(X_BBB0)+r11  ;OS_Z TRANS   !!r11=148 zamer!!! ;os_z torec detali 
+N507 ;///////////////////////////////////////////////////////
+N508 
+N509 STOPRE
+N510 ;************YSTANOV-1******A1/A2/A3 ****
+N511 ;*poraydok obrabotki***metka***magazin/gnezdo*******NALADKA INSTRUMENTA******
+N512  ;;;IF WORKING_STEP==0   GOTOF CHECK_1  ;esli budet palleta n2 !!!!
+N513  IF WORKING_STEP<=1   GOTOB ST1  ;TC=4 T21.1 FREZA D=125/chern.
+N514  M91 ;poka nezak-ca cmena palet 
+N515  IF WORKING_STEP==2   GOTOB ST2  ;TC=2 T21.2 FREZA chist.D=125
+N516  IF WORKING_STEP==3   GOTOB ST3  ;TC=1 T28.1 SVERLO D=22/90
+N517  IF WORKING_STEP==4   GOTOB ST4  ;TC=8 T22.1-Sverlo D=33 L_RAB=185_min
+N518  IF WORKING_STEP==5   GOTOB ST5  ;TC=6 T20.1-rezec d=33.9 L_RAB=185_min
+N519  IF WORKING_STEP==6   GOTOB ST6  ;TC=9 T8.2-MIKR. d=34.3+0.1 L_RAB=185_min
+N520  IF WORKING_STEP==7   GOTOB ST7  ;TC=3 T28.1 sverlo centr D22<90_gr
+N521  IF WORKING_STEP==8   GOTOB ST8  ;TC=8 T3.1-Sverlo d=13+0.43_L=68
+N522  IF WORKING_STEP==9   GOTOB ST9  ;TC=1 T13.2-Sverlo D=8.4+0.16/-0.04
+N523  IF WORKING_STEP==10  GOTOB ST10 ;TC=2 T9.2 sverlo  D=6.7+0.2
+N524 ;__________________________1_UST_44_MIN_______________
+N525 ;////////////////YSTANOV-2///////////////////////////////////
+N526  IF WORKING_STEP==11  GOTOB ST11 ;TC=3 T21.1 FREZA chern.D=125
+N527  IF WORKING_STEP==12  GOTOB ST12 ;TC=1 T21.2 FREZA chist.D=125
+N528  IF WORKING_STEP==13  GOTOB ST13 ;TC=2 T28.1 sverlo centr D22<90_gr
+N529  IF WORKING_STEP==14  GOTOB ST14 ;TC=1 T3.1-Sverlo d13+0.43_L=34-34.3/2
+N530  IF WORKING_STEP==15  GOTOB ST15 ;TC=1 T4.1-Sverlo d6+0.3_L=34-34.3/2
+N531  IF WORKING_STEP==16  GOTOB ST16 ;TC=2 T29.1-Sverlo d27+0.52_L=34
+N532  IF WORKING_STEP==17  GOTOB ST17 ;TC=2 T9.2 sverlo D6.7+0.2
+N533 ;__________________________2_UST_12_MIN_____________
+N534 ;////////////////YSTANOV-3///////////////////////////////////
+N535  IF WORKING_STEP==18  GOTOB ST18 ;TC=2 T28.1 sverlo centr D22<90_gr
+N536  IF WORKING_STEP==19  GOTOB ST19 ;TC=4 T10.1-Sverlo D=35 L_RAB=70_min
+N537  IF WORKING_STEP==20  GOTOB ST20 ;TC=1 T28.2-Sverlo D=25 L_RAB=90_min
+N538  IF WORKING_STEP==21  GOTOB ST21 ;TC=2 T17.2-Sverlo D=10.2+0.27(m12*1.75)_L=24_ma
+N539  IF WORKING_STEP==22  GOTOB ST22 ;TC=1 T29.2 sverlo d28+0.52
+N540 ;_________________________________3_UST_10_MIN_____________
+N541 ;////////////////////////////////ITOGO TC=44+12+10=66_MIN
+N542  IF WORKING_STEP==999  GOTOB ST999
+N543 ENDIF
+N544 
+N545 AA: MSG("Neverniy etap obrabotki.Ti ne prav,poshevili mozgami!!!")
+N546 M0
+N547 GOTOB AA
+N548 ;;;CHECK_1:   ;esli budet palleta n2 !!!!
+N549 GOTOB START_2
+N550 ; NE UDOLAYT VSE RABOTAET
+N551 
+N552 
+N553 

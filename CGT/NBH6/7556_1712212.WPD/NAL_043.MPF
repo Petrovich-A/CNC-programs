@@ -1,0 +1,86 @@
+N1 ;detal 7556-1712212 korpus zolotnikov 
+N2 ;OPER 110 -- YSTANOV I+II=I -- B0/B180 -- prilada 7274-6381)
+N3 ;STANOK nbh-6 INV.zav. A.10003135.02 
+N4 ;PETROVICH A.V.     27.03.14 
+N5 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,X_B0,Y_B0,Z_B0,X_BB0,Y_BB0,Z_BB0,X_B180,Y_B180,Z_B180,X_BB180,Y_BB180,Z_BB180,dpr,kp,zzbez; NYZHNO LI VVODIT' EYI PEREMENNIE?
+N6 DEFINE SMENA_Z AS g0 g53 z930 d0 M9 m5 
+N7 $AC_TIMER[1]=0  ;cikl starta time/min
+N8 ;***************************************************
+N9 ;___detal_A1 _storona B0_____KRYGLIJ PALEC
+N10 R11=385-630/2-0.13  ;os_x palca 
+N11 R21=500.690+0.13          ;os_y palca 
+N12 R31=480-630/2-0.027  ;os_z torec placika
+N13 ;___detal_A2 _storona BB0_____KRYGLIJ PALEC
+N14 R12=245-630/2-0.12  ;os_x palca 
+N15 R22=500.690+0.11      ;os_y palca 
+N16 R32=480-630/2        ;os_Z torec placika 
+N17 ;___detal_A3 _storona B180_____KRYGLIJ PALEC
+N18 R13=-245+630/2+0.22  ;os_x palca -0.18
+N19 R23=500.670+0.09          ;os_y palca 
+N20 R33=630/2-150.013    ;os_z torec placika
+N21 ;___detal_A4 _storona BB180_____KRYGLIJ PALEC
+N22 R14=-385+630/2+0.19 ;os_x palca -0.22
+N23 R24=500.760+0.118          ;os_y palca 
+N24 R34=630/2-150.079    ;os_Z torec placika
+N25 ;***************************************************
+N26 ZBEZ=3
+N27 XBEZ=10
+N28 YBEZ=7
+N29 
+N30 
+N31 ;***************************************************
+N32 ;_______detal_A1 _storona B0__TRANS ___na nizhnij rombich. palec t.k. razmeri ot nego
+N33 X_B0=R11;+105            ;OS_X TRANS  
+N34 Y_B0=R21;-290            ;OS_Y TRANS
+N35 Z_B0=R31+67.77          ;OS_Z TRANS tolshchina detali
+N36 ;_______detal_A2 _storona BB0__TRANS
+N37 X_BB0=R12;-105           ;OS_X TRANS  
+N38 Y_BB0=R22;-290           ;OS_Y TRANS
+N39 Z_BB0=R32+67.77         ;OS_Z TRANS tolshchina detali
+N40 ;_______detal_A3 _storona B180__TRANS
+N41 X_B180=R13;+105          ;OS_X TRANS  
+N42 Y_B180=R23;-290          ;OS_Y TRANS
+N43 Z_B180=R33+67.77        ;OS_Z TRANS tolshchina detali
+N44 ;_______detal_A4 _storona BB180__TRANS
+N45 X_BB180=R14;-105         ;OS_X TRANS  
+N46 Y_BB180=R24;-290         ;OS_Y TRANS
+N47 Z_BB180=R34+67.77       ;OS_Z TRANS tolshchina detali
+N48 ST1: WORK_STEP(1)
+N49 T="1.1" M6
+N50 MSG("T=1.1(1/1) SVERLO CENTR d=16/90 ,WORK_STEP(1) ")
+N51 ;***************************************************
+N52 ;___detal_A1 _storona B0
+N53 G0 G54 B0
+N54 X-350 
+N55 M0;zameni na opravky
+N56 TRANS X=X_B0 Z=Z_B0 Y=Y_B0
+N57 X0 Y0 d1
+N58 M0;!!!os palca kryglogo  na det_A1!!!
+N59 M0
+N60 SMENA_Z
+N61 ;***************************************************
+N62 ;___detal_A2 _storona BB0
+N63 G0 G54 B0
+N64 TRANS X=X_BB0 Z=Z_BB0 Y=Y_BB0
+N65 X0 Y0 d1
+N66 M0;!!!os palca kryglogo  na det_A2!!!
+N67 M0
+N68 SMENA_Z
+N69 ;***************************************************
+N70 ;___detal_A3 _storona B180
+N71 G0 G54 B180
+N72 TRANS X=X_B180 Z=Z_B180 Y=Y_B180
+N73 X0 Y0 d1
+N74 M0;!!!os palca kryglogo  na det_A1!!!
+N75 M0
+N76 SMENA_Z
+N77 ;***************************************************
+N78 ;___detal_A4 _storona BB180
+N79 G0 G54 B180
+N80 TRANS X=X_BB180 Z=Z_BB180 Y=Y_BB180
+N81 X0 Y0 d1
+N82 M0;!!!os palca kryglogo  na det_A1!!!
+N83 M0
+N84 SMENA_Z
+N85 M0
+N86 M2

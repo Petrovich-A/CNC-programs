@@ -1,0 +1,115 @@
+N1 ;detal 7548-3573222 korpus mexanizma upravlen.
+N2 ;OPER 40  (det_A-- YSTANOV I --prilada 7273-6029)
+N3 ;STANOK nbh-6 INV.12505
+N4 ;KOPTYAEV S.G          6.03.13
+; (NA 1_sht,(DETAL_A (B0, B270, BB90))
+N5 ; proverka osi, dvux detalii !!!!!!
+N6 DEF REAL POM_Y,FUS=3000,ZBEZ,ZPRIPUSK,XBEZ,YBEZ,ZAG,RO,Y_B180,X_B180,Z_B180,Y_B90,Y_B0,X_B0,Z_B0,X_B90,Z_B90,Y_B270,X_B270,Z_B270,DPR,KP,TF,TS,Y_BB90,X_BB90,Z_BB90,Y_BB270,X_BB270,Z_BB270
+N7 ;DEFINE SMENA_ZYX AS G75 FP=1 Z1=0 Y1=0 X1=0 SPOS=0  
+N8 DEFINE SMENA_Z AS g0 g53 z930 d0 M9 m5 
+N9 $AC_TIMER[1]=0  ;cikl starta time/min
+N10 ;___detal_A _storona !!!B0_!!!!_____
+N11 R10=47.1+130.7+59/2+19.2-1   ;228 os_y 
+N12 R11=-124+2.5+3               ;-112+2.5;os_x
+N13 R12=270.8+2.5+3.5            ;277;os_z
+N14 ;______________________________________________________
+N15 GOTOF _proverka
+N16 START_1:
+N17 ; ********rabota*********G54* 
+N18 ST1: WORK_STEP(1)
+N19 SMENA_Z
+N20 G0 G54 G17 G40 G90 G94          ;g54!!!!
+N21 T="17.1" M6
+N22 MSG("T17.1(1/17) SVERLO D=16/90 ,WORK_STEP(1) ")
+N23 R1=20/2  ;rad.frezi
+N24 ;************************************************ T="30.1"
+N25 G0 g54 B0
+N26 TRANS X=X_B0 Z=Z_B0 Y=Y_B0        ;detal_A  7548 ; B0_!!!
+N27 REGIME(180,20,2,0.07)
+N28 G0 G54 X0 Y0  ; m3 D1
+N29 M0
+N30 Z10
+N31 M0
+N32 SMENA_Z
+N33 g0 g54 B90
+N34 TRANS X=X_BB90 Z=Z_BB90 Y=Y_BB90  ;detal_A___ B90_!!!
+N35 g54 X0 Y0 d1   ;m3 m8
+N36 M0
+N37 Z10
+N38 M0
+N39 SMENA_Z
+N40 G0 g54 B270;***************
+N41 TRANS X=X_B270 Z=Z_B270 Y=Y_B270  ;detal_A___ B270_!!
+N42 g54 X0 Y0 d1 ;m3
+N43 M0
+N44 Z10
+N45 M0
+N46 SMENA_Z
+N47 M0
+N48 M0
+N49 ;==========================================================
+N50 
+N51 MSG("POLUCHI GOTOVUYU,GODNUYU DETAL.Nezabud podelitca!!!!")
+N52 ;M0
+N53 ;==========================================================
+N54 WORK_DONE
+N55 GOTOF _ENDE
+N56 
+N57 ST999:TO_BROKEN
+N58  _ENDE:T0 M6
+N59 M91
+N60 WORK_STEP(0)
+N61 ; MSG("PIPEC PROGRAMME *** VSE DOMOY ***")
+N62 R98=$AC_TIMER[1]
+N63 ;N68 R98=R98/60  ;cycle TIME/MIN
+N64 M30
+N65 
+N66 _proverka:
+N67 ;____20_operac___detal___storona B0/B90/B180/B270____G54______
+N68 ;*G54-X-centr STOLA,Y-PLOSKOST paleti,Z-centr STOLA
+N69 $P_UIFR[1]=CTRANS(X,0,Y,0,Z,0,B,180+90);  G54 
+N70 ZBEZ=3
+N71 XBEZ=10
+N72 YBEZ=7 
+N73 zpripusk=0.5  
+N74 ;______B0 __TRANS _____detal_A________     ;B0!!!
+N75 Y_B0=r10                      ;OS_Y TRANS 
+N76 X_B0=r11                      ;OS_X TRANS 
+N77 Z_B0=r12+43                   ;OS_Z TRANS 
+N78 ;_____B180__TRANS_______detal_B_______   ;B180!!
+N79 Y_B180=r20                   ;OS_Y TRANS 
+N80 X_B180=r21                   ;OS_X TRANS 
+N81 Z_B180=r22+43                ;OS_Z TRANS 
+N82 ;_____B90-TRANS_________detal_B_____      ;B90!!
+N83 Y_B90=Y_B180                 ;OS_Y TRANS 
+N84 X_B90=Z_B180-43              ;OS_X TRANS 
+N85 Z_B90=ABS(X_B180)            ;OS_Z TRANS
+N86 ;_____BB90-TRANS_________detal_A__________ ;BB90!!
+N87 Y_BB90=Y_B0                  ;OS_Y TRANS 
+N88 X_BB90=-(Z_B0-43)            ;OS_X TRANS 
+N89 Z_BB90=242.85-ABS(X_B0)      ;OS_Z TRANS  243-0.3
+N90 ;_____B270-TRANS__________detal_A_____     ;B270!!
+N91 Y_B270=Y_B0                  ;OS_Y TRANS 
+N92 X_B270=Z_B0-43               ;OS_X TRANS 
+N93 Z_B270=ABS(X_B0)             ;OS_Z TRANS
+N94 ;_____BB270-TRANS_________detal_B_____    ;BB270!!
+N95 Y_BB270=Y_B180               ;OS_Y TRANS 
+N96 X_BB270=-(Z_B180-43)         ;OS_X TRANS 
+N97 Z_BB270=242.85-ABS(X_B180)   ;OS_Z TRANS 243-0.3
+N98 
+N99 STOPRE
+N100 ;**************************YSTANOV 1**********
+N101 ;*poraydok obrabotki***metka***magazin/gnezdo*******NALADKA INSTRUMENTA******
+N102  ;;;IF WORKING_STEP==0   GOTOF CHECK_1  ;esli budet palleta n2 !!!!
+N103  IF WORKING_STEP<=1   GOTOB ST1  ;T...(../..)FREZA D=125/chern.
+N104  M91 ;poka nezak-ca cmena palet 
+N105 
+N106  IF WORKING_STEP==999  GOTOB ST999
+N107 ENDIF
+N108 
+N109 AA: MSG("Neverniy etap obrabotki.Ti ne prav,poshevili mozgami!!!")
+N110 M0
+N111 GOTOB AA
+N112 ;;;CHECK_1:   ;esli budet palleta n2 !!!!
+N113 GOTOB START_1
+N114 ; NE UDOLAYT VSE RABOTAET

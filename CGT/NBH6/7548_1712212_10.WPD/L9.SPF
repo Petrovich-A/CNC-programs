@@ -1,0 +1,8 @@
+N1 ;detal 7548-1712212-10 korpus zolotnikov 
+N2 ;OPER 130 *************YSTANOV III***********
+N3 X0 Y35 M8
+N4 G42
+N5 POCKET2(30,0,15,,3,16.1+0.1,0,35,400,250,3,2,,2)
+N6 G40
+N7 M17
+
